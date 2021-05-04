@@ -47,7 +47,7 @@ metadata:
           controlType: singleSelect
           path: ".spec.parameters.nodes.size"
           title: Node Size
-          description: Size of cluster Nodes
+          description: Size of cluster nodes
           default: small
           enum:
           - small
