@@ -47,7 +47,7 @@ metadata:
           controlType: singleSelect
           path: ".spec.parameters.nodes.size"
           title: Node Size
-          description: Desired node count, from 1 to 100.
+          description: Size of cluster nodes
           default: small
           enum:
           - small
