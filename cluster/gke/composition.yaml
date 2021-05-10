@@ -27,8 +27,6 @@ spec:
               useIpAliases: true
               clusterSecondaryRangeName: pods
               servicesSecondaryRangeName: services
-            privateClusterConfig:
-              enablePrivateNodes: false
             networkConfig:
               enableIntraNodeVisibility: true
             loggingService: logging.googleapis.com/kubernetes
