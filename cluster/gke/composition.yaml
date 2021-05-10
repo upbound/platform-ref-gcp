@@ -15,7 +15,7 @@ spec:
         kind: GKECluster
         spec:
           forProvider:
-            initialClusterVersion: "1.17"
+            initialClusterVersion: "1.18"
             location: us-west2
             masterAuth:
               # setting this master auth user name enables basic auth so that a client (e.g.,
@@ -28,8 +28,7 @@ spec:
               clusterSecondaryRangeName: pods
               servicesSecondaryRangeName: services
             privateClusterConfig:
-              enablePrivateNodes: true
-              masterIpv4CidrBlock: 10.205.0.0/28
+              enablePrivateNodes: false
             networkConfig:
               enableIntraNodeVisibility: true
             loggingService: logging.googleapis.com/kubernetes
