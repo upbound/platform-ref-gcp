@@ -54,7 +54,7 @@ Ensure that the following roles are added to your service account:
 Then create the secret using the given `creds.json` file:
 
 ```console
-kubectl create secret generic gcp-creds -n crossplane-system --from-file=key=./creds.json
+kubectl create secret generic gcp-creds -n upbound-system --from-file=key=./creds.json
 ```
 
 Create the `ProviderConfig`, ensuring to set the `projectID` to your specific GCP project:

@@ -7,6 +7,6 @@ spec:
     secretRef:
       key: key
       name: gcp-creds
-      namespace: crossplane-system
+      namespace: upbound-system
     source: Secret
   projectID: crossplane-playground
