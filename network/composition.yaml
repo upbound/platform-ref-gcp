@@ -5,7 +5,7 @@ metadata:
   labels:
     provider: GCP
 spec:
-  writeConnectionSecretsToNamespace: crossplane-system
+  writeConnectionSecretsToNamespace: upbound-system
   compositeTypeRef:
     apiVersion: gcp.platformref.crossplane.io/v1alpha1
     kind: CompositeNetwork
