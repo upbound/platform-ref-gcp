@@ -12,6 +12,8 @@ connect to the infrastructure they need using secrets distributed directly to th
 
 ## Quick Start
 
+License check add
+
 ### Platform Ops/SRE: Run your own internal cloud platform
 
 There are two ways to run Universal Crossplane:
@@ -19,7 +21,7 @@ There are two ways to run Universal Crossplane:
 1. Hosted on Upbound Cloud
 1. Self-hosted on any Kubernetes cluster.
 
-To provision the GCP Reference platform, you can pick the option that is best for you. 
+To provision the GCP Reference platform, you can pick the option that is best for you.
 
 We'll go through each option in the next sections.
 
