@@ -23,6 +23,10 @@ spec:
               id:
                 type: string
                 description: ID of this Cluster that other objects will use to refer to it.
+                minLength: 1
+                # Maximum key length in GCP is 40 characters. We are setting a 34 character
+                # limit to accomodate the generated hash suffix ('-' + 5 chars).
+                maxLength: 34
               parameters:
                 type: object
                 description: GKE configuration parameters.
