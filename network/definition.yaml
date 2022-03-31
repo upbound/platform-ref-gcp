@@ -33,9 +33,6 @@ metadata:
           - required: true
             customError: Cluster ref is required.
 spec:
-  claimNames:
-    kind: Network
-    plural: networks
   group: gcp.platformref.crossplane.io
   names:
     kind: CompositeNetwork

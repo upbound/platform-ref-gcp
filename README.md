@@ -128,26 +128,6 @@ kubectl apply -f examples/provider-default-gcp.yaml
    `Organization`
 1. Verify access to your team `Control Planes` and Registries
 
-#### Provision a Network fabric using kubectl
-
-1. Provision a `Network` resource (claim for `CompositeNetwork`) provided by the platform `Configuration`:
-
-```console
-kubectl -n upbound-system apply -f examples/network.yaml
-```
-
-1. View status / details of the managed resources created for your claim:
-
-```console
-kubectl get managed
-```
-
-1. Check status of your claim:
-
-```console
-kubectl -n upbound-system get network
-```
-
 #### Provision a Kubernetes cluster using kubectl
 
 1. Provision a `Cluster` resource (claim for `CompositeCluster`) provided by the platform `Configuration`:
@@ -179,19 +159,13 @@ kubectl -n upbound-system get cluster
 
 #### Cleanup Resources
 
-1. Delete `Network` claim:
-
-```console
-kubectl -n upbound-system delete -f examples/network.yaml
-```
-
-2. Delete `Cluster` claim:
+1. Delete `Cluster` claim:
 
 ```console
 kubectl -n upbound-system delete -f examples/cluster.yaml
 ```
 
-3. Verify all underlying resources have been cleanly deleted:
+2. Verify all underlying resources have been cleanly deleted:
 
 ```console
 kubectl get managed
