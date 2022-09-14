@@ -1,11 +1,11 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: gke.gcp.platformref.crossplane.io
+  name: gke.gcp.platformref.upbound.io
 spec:
   connectionSecretKeys:
   - kubeconfig
-  group: gcp.platformref.crossplane.io
+  group: gcp.platformref.upbound.io
   names:
     kind: GKE
     plural: gke
@@ -48,18 +48,27 @@ spec:
                     required:
                     - count
                     - size
-                  networkRef:
+                  compositeNetworkSelector:
                     type: object
-                    description: "A reference to the Network object that this cluster should be
-                    connected to."
                     properties:
-                      id:
-                        type: string
-                        description: ID of the Network object this ref points to.
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures a CompositeNetwork with matching labels
+                          is selected.
+                        type: object
                     required:
-                    - id
+                    - matchLabels
                 required:
                 - nodes
-                - networkRef
             required:
+            - id
             - parameters
+          status:
+            description: A Status represents the observed state
+            properties:
+              gke:
+                description: Freeform field containing status information for eks
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+            type: object

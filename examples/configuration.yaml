@@ -1,0 +1,8 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: platform-ref-gcp
+spec:
+  package: xpkg.upbound.io/upbound/platform-ref-gcp:v0.1.0
+  packagePullSecrets:
+    - name: package-pull-secret
