@@ -1,9 +1,9 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: services.gcp.platformref.crossplane.io
+  name: services.gcp.platformref.upbound.io
 spec:
-  group: gcp.platformref.crossplane.io
+  group: gcp.platformref.upbound.io
   names:
     kind: Services
     plural: services

@@ -6,8 +6,8 @@ your internal teams.
 
 It provides platform APIs to provision fully configured GKE clusters, with secure networking, and
 stateful cloud services (Cloud SQL) designed to securely connect to the nodes in each GKE cluster --
-all composed using cloud service primitives from the [Crossplane GCP
-Provider](https://doc.crds.dev/github.com/crossplane/provider-gcp). App deployments can securely
+all composed using cloud service primitives from the [Upbound Official GCP
+Provider](https://marketplace.upbound.io/providers/upbound/provider-gcp). App deployments can securely
 connect to the infrastructure they need using secrets distributed directly to the app namespace.
 
 ## Quick Start
@@ -19,7 +19,7 @@ There are two ways to run Universal Crossplane:
 1. Hosted on Upbound Cloud
 1. Self-hosted on any Kubernetes cluster.
 
-To provision the GCP Reference platform, you can pick the option that is best for you. 
+To provision the GCP Reference platform, you can pick the option that is best for you.
 
 We'll go through each option in the next sections.
 
@@ -95,13 +95,16 @@ kubectl get pkg
 #### GCP Provider Setup
 
 Set up your GCP account keyfile by following the instructions on:
-https://crossplane.io/docs/v1.0/getting-started/install-configure.html#select-provider
+https://crossplane.io/docs/v1.9/getting-started/install-configure.html#select-a-getting-started-configuration
 
 Ensure that the following roles are added to your service account:
 
 * `roles/compute.networkAdmin`
 * `roles/container.admin`
 * `roles/iam.serviceAccountUser`
+* `roles/iam.securityAdmin`
+* `roles/iam.serviceAccountAdmin`
+* `roles/iam.serviceAccountKeyAdmin`
 
 Then create the secret using the given `creds.json` file:
 
@@ -162,7 +165,7 @@ kubectl -n upbound-system get cluster
 1. Delete `Cluster` claim:
 
 ```console
-kubectl -n upbound-system delete -f examples/cluster.yaml
+kubectl -n upbound-system delete -f examples/cluster-claim.yaml
 ```
 
 2. Verify all underlying resources have been cleanly deleted:
@@ -224,7 +227,7 @@ docker login ${REGISTRY} -u ${UPBOUND_ACCOUNT_EMAIL}
 Build package.
 
 ```console
-up xpkg build --name package.xpkg --ignore ".github/*,.github/*/*,examples/*,hack/*"
+up xpkg build --name package.xpkg --ignore ".github/workflows/*,hack/*"
 ```
 
 Push package to registry.
@@ -240,12 +243,12 @@ kubectl crossplane install configuration ${PLATFORM_CONFIG}
 ```
 
 The cloud service primitives that can be used in a `Composition` today are
-listed in the Crossplane provider docs:
+listed in the Upbound Marketplace provider docs:
 
-* [Crossplane GCP Provider](https://doc.crds.dev/github.com/crossplane/provider-gcp)
+* [Upbound Official GCP Provider](https://marketplace.upbound.io/providers/upbound/provider-gcp)
 
 To learn more see [Configuration
-Packages](https://crossplane.io/docs/v0.14/getting-started/package-infrastructure.html).
+Packages](https://crossplane.io/docs/v1.9/concepts/packages.html).
 
 ## Learn More
 

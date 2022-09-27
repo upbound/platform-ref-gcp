@@ -1,13 +1,13 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: services.gcp.platformref.crossplane.io
+  name: services.gcp.platformref.upbound.io
   labels:
     provider: helm
 spec:
   writeConnectionSecretsToNamespace: upbound-system
   compositeTypeRef:
-    apiVersion: gcp.platformref.crossplane.io/v1alpha1
+    apiVersion: gcp.platformref.upbound.io/v1alpha1
     kind: Services
   resources:
     - base:

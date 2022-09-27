@@ -1,29 +1,27 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: gcp.compositenetworks.gcp.platformref.crossplane.io
+  name: gcp.compositenetworks.gcp.platformref.upbound.io
   labels:
     provider: GCP
 spec:
   writeConnectionSecretsToNamespace: upbound-system
   compositeTypeRef:
-    apiVersion: gcp.platformref.crossplane.io/v1alpha1
+    apiVersion: gcp.platformref.upbound.io/v1alpha1
     kind: CompositeNetwork
   resources:
     - base:
-        apiVersion: compute.gcp.crossplane.io/v1beta1
+        apiVersion: compute.gcp.upbound.io/v1beta1
         kind: Network
         spec:
           forProvider:
             autoCreateSubnetworks: false
-            routingConfig:
-              routingMode: REGIONAL
-          reclaimPolicy: Delete
+            routingMode: REGIONAL
       patches:
         - fromFieldPath: spec.id
-          toFieldPath: metadata.labels[networks.gcp.platformref.crossplane.io/network-id]
+          toFieldPath: metadata.labels[networks.gcp.platformref.upbound.io/network-id]
     - base:
-        apiVersion: compute.gcp.crossplane.io/v1beta1
+        apiVersion: compute.gcp.upbound.io/v1beta1
         kind: Subnetwork
         spec:
           forProvider:
@@ -35,12 +33,11 @@ spec:
               matchControllerRef: true
             privateIpGoogleAccess: true
             ipCidrRange: 172.16.0.0/16
-            secondaryIpRanges:
+            secondaryIpRange:
               - rangeName: pods
                 ipCidrRange: 10.200.0.0/14
               - rangeName: services
                 ipCidrRange: 10.204.0.0/16
-          reclaimPolicy: Delete
       patches:
         - fromFieldPath: spec.id
-          toFieldPath: metadata.labels[networks.gcp.platformref.crossplane.io/network-id]
+          toFieldPath: metadata.labels[networks.gcp.platformref.upbound.io/network-id]

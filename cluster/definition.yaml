@@ -1,93 +1,14 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: compositeclusters.gcp.platformref.crossplane.io
-  annotations:
-    upbound.io/ui-schema: |-
-      ---
-      configSections:
-      - title: Cluster Info
-        description: Information about this cluster
-        items:
-        - name: id
-          controlType: singleInput
-          type: string
-          path: ".spec.id"
-          title: Cluster ID
-          description: Cluster ID that other objects will use to refer to this cluster
-          default: platform-ref-gcp-cluster
-          validation:
-          - required: true
-            customError: Cluster ID is required.
-        - name: writeSecretRef
-          controlType: singleInput
-          type: string
-          path: ".spec.writeConnectionSecretToRef.name"
-          title: Connection Secret Ref
-          description: name of the secret to write to this namespace
-          default: cluster-conn
-          validation:
-          - required: true
-      - title: Cluster Nodes
-        description: Enter information to size your cluster
-        items:
-        - name: clusterNodeCount
-          controlType: singleInput
-          type: integer
-          path: ".spec.parameters.nodes.count"
-          title: Node Count
-          description: Number of nodes in the cluster
-          default: 1
-          validation:
-          - minimum: 1
-          - maximum: 100
-          - required: true
-            customError: Node count is required.
-        - name: clusterNodeSize
-          controlType: singleSelect
-          path: ".spec.parameters.nodes.size"
-          title: Node Size
-          description: Size of cluster nodes
-          default: small
-          enum:
-          - small
-          - medium
-          - large
-          validation:
-          - required: true
-            customError: Node size is required.
-      - title: Cluster Networking
-        description: Select a network fabric for your cluster
-        items:
-        - name: networkRef
-          controlType: singleInput
-          type: string
-          path: ".spec.parameters.networkRef.id"
-          title: Network Ref
-          description: Network fabric to connect the database to
-          default: platform-ref-gcp-network
-          validation:
-          - required: true
-            customError: Network ref is required.
-      - title: Cluster Services
-        description: Configure cluster services and operators
-        items:
-        - name: promVersion
-          controlType: singleInput
-          type: string
-          path: ".spec.parameters.services.operators.prometheus.version"
-          title: Prometheus Chart Version
-          description: The version of kube-prometheus-stack chart to install
-          default: 10.1.0
-          validation:
-          - required: false
+  name: compositeclusters.gcp.platformref.upbound.io
 spec:
   claimNames:
     kind: Cluster
     plural: clusters
   connectionSecretKeys:
   - kubeconfig
-  group: gcp.platformref.crossplane.io
+  group: gcp.platformref.upbound.io
   names:
     kind: CompositeCluster
     plural: compositeclusters
@@ -145,19 +66,8 @@ spec:
                               version:
                                 type: string
                                 description: Prometheus operator version to run.
-                  networkRef:
-                    type: object
-                    description: "A reference to the Network object that this cluster should be
-                    connected to."
-                    properties:
-                      id:
-                        type: string
-                        description: ID of the Network object this ref points to.
-                    required:
-                    - id
                 required:
                 - nodes
-                - networkRef
             required:
             - id
             - parameters

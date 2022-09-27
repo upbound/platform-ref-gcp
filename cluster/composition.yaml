@@ -1,25 +1,29 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: gke.compositeclusters.gcp.platformref.crossplane.io
+  name: gke.compositeclusters.gcp.platformref.upbound.io
   labels:
     provider: GCP
 spec:
   writeConnectionSecretsToNamespace: upbound-system
   compositeTypeRef:
-    apiVersion: gcp.platformref.crossplane.io/v1alpha1
+    apiVersion: gcp.platformref.upbound.io/v1alpha1
     kind: CompositeCluster
   resources:
     - base:
-        apiVersion: gcp.platformref.crossplane.io/v1alpha1
+        apiVersion: gcp.platformref.upbound.io/v1alpha1
+        kind: CompositeNetwork
+      patches:
+        - fromFieldPath: spec.id
+          toFieldPath: spec.id
+    - base:
+        apiVersion: gcp.platformref.upbound.io/v1alpha1
         kind: GKE
       connectionDetails:
         - fromConnectionSecretKey: kubeconfig
       patches:
         - fromFieldPath: spec.id
           toFieldPath: spec.id
-        - fromFieldPath: spec.id
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
         - fromFieldPath: metadata.uid
           toFieldPath: spec.writeConnectionSecretToRef.name
           transforms:
@@ -32,10 +36,10 @@ spec:
           toFieldPath: spec.parameters.nodes.count
         - fromFieldPath: spec.parameters.nodes.size
           toFieldPath: spec.parameters.nodes.size
-        - fromFieldPath: spec.parameters.networkRef.id
-          toFieldPath: spec.parameters.networkRef.id
+        - fromFieldPath: spec.id
+          toFieldPath: spec.parameters.compositeNetworkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
     - base:
-        apiVersion: gcp.platformref.crossplane.io/v1alpha1
+        apiVersion: gcp.platformref.upbound.io/v1alpha1
         kind: Services
       patches:
         - fromFieldPath: spec.id
