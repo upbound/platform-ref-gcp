@@ -1,0 +1,7 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestAssert
+timeout: 1200
+commands:
+- command: ${KUBECTL} annotate managed --all upjet.upbound.io/test=true --overwrite
+- command: ${KUBECTL} -n upbound-system wait cluster.gcp.platformref.upbound.io platform-ref-gcp-cluster --for=condition=Ready --timeout 10s
+- command: ${KUBECTL} -n upbound-system get secret cluster-conn 

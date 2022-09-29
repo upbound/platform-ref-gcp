@@ -1,0 +1,6 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestStep
+commands:
+- command: ${KUBECTL} -n upbound-system delete claim --all
+- command: ${KUBECTL} delete composite --all
+- command: ${KUBECTL} delete managed --all --timeout 10m

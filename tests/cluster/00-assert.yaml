@@ -1,0 +1,7 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestAssert
+timeout: 120
+commands:
+  - command: ${KUBECTL} wait providers.pkg.crossplane.io provider-gcp --for=condition=Installed
+  - command: ${KUBECTL} wait crd providerconfigs.gcp.upbound.io --for=condition=established
+  - command: ${KUBECTL} wait xrd --for condition=established --all
