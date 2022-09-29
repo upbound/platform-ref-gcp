@@ -1,1 +1,5 @@
+/.cache
+/.work
+/_output
+
 *.xpkg
