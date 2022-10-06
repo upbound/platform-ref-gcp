@@ -2,10 +2,9 @@
 PROJECT_NAME := platform-ref-gcp
 PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)
 
-# NOTE(turkenh): we need to publish only for linux_amd64 because we are using
-# pkg controllers seems to be looking for that explicitly. Otherwise, it was failing with: 
-# cannot initialize parser backend: failed to fetch package from remote: no child with 
-# platform linux/amd64 in index xpkg.upbound.io/upbound/platform-ref-gcp:v0.2.0-rc.0.4.gdac9a0c
+# NOTE(hasheddan): the platform is insignificant here as Configuration package
+# images are not architecture-specific. We constrain to one platform to avoid
+# needlessly pushing a multi-arch image.
 PLATFORMS ?= linux_amd64
 include build/makelib/common.mk
 
