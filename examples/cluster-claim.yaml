@@ -2,6 +2,9 @@ apiVersion: gcp.platformref.upbound.io/v1alpha1
 kind: Cluster
 metadata:
   name: platform-ref-gcp-cluster
+  namespace: default
+  annotations:
+    upjet.upbound.io/timeout: "2400"
 spec:
   compositionSelector:
     matchLabels:

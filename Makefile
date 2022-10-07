@@ -11,7 +11,7 @@ include build/makelib/common.mk
 # ====================================================================================
 # Setup Kubernetes tools
 
-UP_VERSION = v0.13.0
+UP_VERSION = v0.14.0
 UP_CHANNEL = stable
 
 -include build/makelib/k8s_tools.mk
@@ -49,3 +49,10 @@ submodules:
 # We must ensure up is installed in tool cache prior to build as including the k8s_tools machinery prior to the xpkg
 # machinery sets UP to point to tool cache.
 build.init: $(UP)
+
+uptest-local: $(UP) $(KUBECTL) $(KUTTL)
+	@$(INFO) running automated tests with uptest using current kubeconfig
+	@$(KUBECTL) get provider.pkg upbound-provider-gcp > /dev/null 2>&1 || $(UP) ctp provider install upbound/provider-gcp:v0.14.0 --package-pull-secrets=package-pull-secret
+	@$(KUBECTL) get provider.pkg crossplane-provider-helm > /dev/null 2>&1 || $(UP) ctp provider install crossplane/provider-helm:v0.11.1
+	@$(KUBECTL) apply -R -f package/cluster
+	KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) uptest --claim-or-composite --data-source="" || $(FAIL)
