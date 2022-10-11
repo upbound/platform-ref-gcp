@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 set -aeuo pipefail
 
-GCP_PROJECT="wesaas-playground"
-
 GCP_PROJECT=${GCP_PROJECT:-crossplane-playground}
 
-${KUBECTL} -n upbound-system create secret generic gcp-creds --from-literal=credentials="${GCP_CREDS}" \
+${KUBECTL} -n upbound-system create secret generic gcp-creds --from-literal=credentials="${UPTEST_GCP_CREDS}" \
     --dry-run=client -o yaml | ${KUBECTL} apply -f -
 
 cat <<EOF | ${KUBECTL} apply -f -

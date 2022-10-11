@@ -61,13 +61,13 @@ PROVIDER_HELM_VERSION ?= v0.12.0
 controlplane.up: $(UP) $(KUBECTL) $(KIND)
 	@$(INFO) setting up controlplane
 	@$(KIND) get kubeconfig --name $(KIND_CLUSTER_NAME) >/dev/null 2>&1 || $(KIND) create cluster --name=$(KIND_CLUSTER_NAME)
-	$(KUBECTL) -n upbound-system get cm universal-crossplane-config >/dev/null 2>&1 || $(UP) uxp install
-	$(KUBECTL) -n upbound-system wait deploy crossplane --for condition=Available --timeout=120s
-	$(KUBECTL) -n upbound-system create secret docker-registry package-pull-secret --docker-server=xpkg.upbound.io --docker-username=${DOCKER_USERNAME} --docker-password=${DOCKER_PASSWORD} -o yaml --dry-run=client | $(KUBECTL) apply -f -
-	$(KUBECTL) get provider.pkg upbound-provider-gcp > /dev/null 2>&1 || $(UP) ctp provider install upbound/provider-gcp:$(PROVIDER_GCP_VERSION) --package-pull-secrets=package-pull-secret
-	$(KUBECTL) get provider.pkg crossplane-contrib-provider-helm > /dev/null 2>&1 || $(UP) ctp provider install crossplane-contrib/provider-helm:$(PROVIDER_HELM_VERSION)
-	$(KUBECTL) wait provider.pkg upbound-provider-gcp --for condition=Healthy --timeout=120s
-	$(KUBECTL) wait provider.pkg crossplane-contrib-provider-helm --for condition=Healthy --timeout=120s
+	@$(KUBECTL) -n upbound-system get cm universal-crossplane-config >/dev/null 2>&1 || $(UP) uxp install
+	@$(KUBECTL) -n upbound-system wait deploy crossplane --for condition=Available --timeout=120s
+	@$(KUBECTL) -n upbound-system create secret docker-registry package-pull-secret --docker-server=xpkg.upbound.io --docker-username=${UPBOUND_DOCKER_USERNAME} --docker-password=${UPBOUND_DOCKER_PASSWORD} -o yaml --dry-run=client | $(KUBECTL) apply -f -
+	@$(KUBECTL) get provider.pkg upbound-provider-gcp > /dev/null 2>&1 || $(UP) ctp provider install upbound/provider-gcp:$(PROVIDER_GCP_VERSION) --package-pull-secrets=package-pull-secret
+	@$(KUBECTL) get provider.pkg crossplane-contrib-provider-helm > /dev/null 2>&1 || $(UP) ctp provider install crossplane-contrib/provider-helm:$(PROVIDER_HELM_VERSION)
+	@$(KUBECTL) wait provider.pkg upbound-provider-gcp --for condition=Healthy --timeout=120s
+	@$(KUBECTL) wait provider.pkg crossplane-contrib-provider-helm --for condition=Healthy --timeout=120s
 	@$(OK) setting up controlplane
 
 controlplane.down: $(UP) $(KUBECTL) $(KIND)
