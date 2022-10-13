@@ -63,8 +63,7 @@ controlplane.up: $(UP) $(KUBECTL) $(KIND)
 	@$(KIND) get kubeconfig --name $(KIND_CLUSTER_NAME) >/dev/null 2>&1 || $(KIND) create cluster --name=$(KIND_CLUSTER_NAME)
 	@$(KUBECTL) -n upbound-system get cm universal-crossplane-config >/dev/null 2>&1 || $(UP) uxp install
 	@$(KUBECTL) -n upbound-system wait deploy crossplane --for condition=Available --timeout=120s
-	@$(KUBECTL) -n upbound-system create secret docker-registry package-pull-secret --docker-server=xpkg.upbound.io --docker-username=${UPBOUND_DOCKER_USERNAME} --docker-password=${UPBOUND_DOCKER_PASSWORD} -o yaml --dry-run=client | $(KUBECTL) apply -f -
-	@$(KUBECTL) get provider.pkg upbound-provider-gcp > /dev/null 2>&1 || $(UP) ctp provider install upbound/provider-gcp:$(PROVIDER_GCP_VERSION) --package-pull-secrets=package-pull-secret
+	@$(KUBECTL) get provider.pkg upbound-provider-gcp > /dev/null 2>&1 || $(UP) ctp provider install upbound/provider-gcp:$(PROVIDER_GCP_VERSION)
 	@$(KUBECTL) get provider.pkg crossplane-contrib-provider-helm > /dev/null 2>&1 || $(UP) ctp provider install crossplane-contrib/provider-helm:$(PROVIDER_HELM_VERSION)
 	@$(KUBECTL) wait provider.pkg upbound-provider-gcp --for condition=Healthy --timeout=120s
 	@$(KUBECTL) wait provider.pkg crossplane-contrib-provider-helm --for condition=Healthy --timeout=120s
@@ -78,7 +77,7 @@ controlplane.down: $(UP) $(KUBECTL) $(KIND)
 uptest-local: $(UP) $(KUBECTL) $(KUTTL)
 	@$(INFO) running automated tests
 	@$(KUBECTL) apply -R -f package/cluster
-	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) uptest --claim-or-composite --example-list=examples/cluster-claim.yaml --default-timeout=2400 || $(FAIL)
+	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) uptest e2e examples/cluster-claim.yaml --setup-script=test/setup.sh --default-timeout=2400 || $(FAIL)
 	@$(OK) running automated tests
 
 e2e: controlplane.up uptest-local
