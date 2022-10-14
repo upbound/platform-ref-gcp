@@ -12,6 +12,7 @@ echo "Creating cloud credential secret"
 ${KUBECTL} -n upbound-system create secret generic gcp-creds --from-literal=credentials="${UPTEST_GCP_CREDS}" \
     --dry-run=client -o yaml | ${KUBECTL} apply -f -
 
+${KUBECTL} wait providers.pkg upbound-provider-gcp --for=condition=installed --timeout 5m
 ${KUBECTL} wait providers.pkg upbound-provider-gcp --for=condition=healthy --timeout 5m
 ${KUBECTL} wait crd providerconfigs.gcp.upbound.io --for=condition=established
 echo "Creating a default provider config"
