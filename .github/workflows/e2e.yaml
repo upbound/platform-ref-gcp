@@ -1,13 +1,14 @@
 name: End to End Test
 
 on:
-  push:
-    branches:
-      - main
-      - release-*
   workflow_dispatch: {}
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created]
 
 env:
+  UPTEST_GCP_PROJECT: ${{ secrets.UPTEST_GCP_PROJECT }}
   UPTEST_GCP_CREDS: ${{ secrets.UPTEST_GCP_CREDS }}
 
 jobs:
@@ -38,9 +39,19 @@ jobs:
       - name: Fetch History
         run: git fetch --prune --unshallow
 
+      - uses: khan/pull-request-comment-trigger@v1.1.0
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        id: check
+        with:
+          trigger: '/test-e2e'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+
       - name: End to end
         run: make e2e
         env:
+          UPTEST_GCP_PROJECT: ${{ secrets.UPTEST_GCP_PROJECT }}
           UPTEST_GCP_CREDS: ${{ secrets.UPTEST_GCP_CREDS }}
           UPBOUND_DOCKER_USERNAME: ${{ secrets.UPBOUND_DOCKER_USERNAME }}
           UPBOUND_DOCKER_PASSWORD: ${{ secrets.UPBOUND_DOCKER_PASSWORD }}
