@@ -13,7 +13,7 @@ env:
 
 jobs:
   detect-noop:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       noop: ${{ steps.noop.outputs.should_skip }}
     steps:
@@ -26,7 +26,7 @@ jobs:
           do_not_skip: '["workflow_dispatch", "schedule", "push"]'
 
   e2e:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
@@ -53,5 +53,3 @@ jobs:
         env:
           UPTEST_GCP_PROJECT: ${{ secrets.UPTEST_GCP_PROJECT }}
           UPTEST_GCP_CREDS: ${{ secrets.UPTEST_GCP_CREDS }}
-          UPBOUND_DOCKER_USERNAME: ${{ secrets.UPBOUND_DOCKER_USERNAME }}
-          UPBOUND_DOCKER_PASSWORD: ${{ secrets.UPBOUND_DOCKER_PASSWORD }}
