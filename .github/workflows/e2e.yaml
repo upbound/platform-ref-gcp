@@ -9,9 +9,6 @@ on:
 
 env:
   UPTEST_GCP_CREDS: ${{ secrets.UPTEST_GCP_CREDS }}
-  # Note(turkenh): Remove when pull secret no longer needed.
-  UPBOUND_DOCKER_USERNAME: ${{ secrets.UPBOUND_DOCKER_USERNAME }}
-  UPBOUND_DOCKER_PASSWORD: ${{ secrets.UPBOUND_DOCKER_PASSWORD }}
 
 jobs:
   detect-noop:

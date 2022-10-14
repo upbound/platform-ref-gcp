@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -aeuo pipefail
 
-GCP_PROJECT=${GCP_PROJECT:-crossplane-playground}
+UPTEST_GCP_PROJECT=${UPTEST_GCP_PROJECT:-crossplane-playground}
 
 ${KUBECTL} -n upbound-system create secret generic gcp-creds --from-literal=credentials="${UPTEST_GCP_CREDS}" \
     --dry-run=client -o yaml | ${KUBECTL} apply -f -
@@ -18,5 +18,5 @@ spec:
       name: gcp-creds
       namespace: upbound-system
     source: Secret
-  projectID: ${GCP_PROJECT}
+  projectID: ${UPTEST_GCP_PROJECT}
 EOF

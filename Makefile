@@ -74,10 +74,10 @@ controlplane.down: $(UP) $(KUBECTL) $(KIND)
 	@$(KIND) get kubeconfig --name $(KIND_CLUSTER_NAME) >/dev/null 2>&1 && $(KIND) delete cluster --name=$(KIND_CLUSTER_NAME)
 	@$(OK) deleting controlplane
 
-uptest-local: $(UP) $(KUBECTL) $(KUTTL)
+uptest-local: $(UPTEST) $(KUBECTL) $(KUTTL)
 	@$(INFO) running automated tests
 	@$(KUBECTL) apply -R -f package/cluster
-	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) uptest e2e examples/cluster-claim.yaml --setup-script=test/setup.sh --default-timeout=2400 || $(FAIL)
+	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) $(UPTEST) e2e examples/cluster-claim.yaml --setup-script=test/setup.sh --default-timeout=2400 || $(FAIL)
 	@$(OK) running automated tests
 
 e2e: controlplane.up uptest-local
