@@ -61,9 +61,9 @@ uptest: build $(UPTEST) $(KUBECTL) $(KUTTL) local.xpkg.deploy.configuration.$(PR
 #TODO(turkenh): move to build submodule
 CONTROLPLANE_DUMP_DIRECTORY ?= $(OUTPUT_DIR)/controlplane-dump
 controlplane.dump: $(KUBECTL)
-	@mkdir -p ${DUMP_DIRECTORY}
-	@$(KUBECTL) cluster-info dump --output-directory ${DUMP_DIRECTORY} --all-namespaces || true
-	@$(KUBECTL) get managed -o yaml > ${DUMP_DIRECTORY}/managed.yaml || true
-	@cat /tmp/automated-tests/case/*.yaml > ${DUMP_DIRECTORY}/kuttl-inputs.yaml
+	@mkdir -p $(CONTROLPLANE_DUMP_DIRECTORY)
+	@$(KUBECTL) cluster-info dump --output-directory $(CONTROLPLANE_DUMP_DIRECTORY) --all-namespaces || true
+	@$(KUBECTL) get managed -o yaml > $(CONTROLPLANE_DUMP_DIRECTORY)/managed.yaml || true
+	@cp -r ${TMPDIR}/uptest-e2e $(CONTROLPLANE_DUMP_DIRECTORY)
 
 e2e: controlplane.up uptest
