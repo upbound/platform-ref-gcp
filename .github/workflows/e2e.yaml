@@ -23,7 +23,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           paths_ignore: '["**.md", "**.png", "**.jpg"]'
-          do_not_skip: '["workflow_dispatch", "schedule", "push"]'
+          do_not_skip: '["workflow_dispatch", "schedule", "push", "issue_comment"]'
 
   e2e:
     runs-on: ubuntu-22.04
@@ -53,3 +53,22 @@ jobs:
         env:
           UPTEST_GCP_PROJECT: ${{ secrets.UPTEST_GCP_PROJECT }}
           UPTEST_GCP_CREDS: ${{ secrets.UPTEST_GCP_CREDS }}
+
+      - name: Collect Control Plane Dump
+        if: always()
+        run: |
+          export CONTROLPLANE_DUMP_DIRECTORY=./_output/controlplane-dump
+          make controlplane.dump
+
+      - name: Upload Control Plane Dump
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cluster-dump-${{ needs.get-example-list.outputs.provider_name }}
+          path: ./_output/controlplane-dump
+
+      - name: Cleanup
+        if: always()
+        run: |
+          eval $(make --no-print-directory build.vars)
+          ${KUBECTL} delete managed --all
