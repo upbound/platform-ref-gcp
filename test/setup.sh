@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -aeuo pipefail
 
+echo 'hello' 
+
 UPTEST_GCP_PROJECT=${UPTEST_GCP_PROJECT:-crossplane-playground}
 
 echo "Running setup.sh"
