@@ -40,7 +40,7 @@ jobs:
         run: git fetch --prune --unshallow
 
       - uses: khan/pull-request-comment-trigger@v1.1.0
-        if: ${{ github.event_name != 'workflow_dispatch' }}
+        if: github.event_name != 'workflow_dispatch'
         id: check
         with:
           trigger: '/test-e2e'
@@ -50,6 +50,7 @@ jobs:
 
       - name: End to end
         run: make e2e
+        if: steps.check.outputs.triggered == 'true' || github.event_name == 'workflow_dispatch'
         env:
           UPTEST_GCP_PROJECT: ${{ secrets.UPTEST_GCP_PROJECT }}
           UPTEST_GCP_CREDS: ${{ secrets.UPTEST_GCP_CREDS }}
@@ -64,7 +65,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: cluster-dump-${{ needs.get-example-list.outputs.provider_name }}
+          name: control-plane-dump
           path: ./_output/controlplane-dump
 
       - name: Cleanup

@@ -130,7 +130,7 @@ spec:
             nodeConfig:
               - diskType: pd-standard
                 diskSizeGb: 100
-                imageType: COS
+                imageType: COS_CONTAINERD
                 preemptible: true
                 shieldedInstanceConfig:
                   - enableIntegrityMonitoring: true
