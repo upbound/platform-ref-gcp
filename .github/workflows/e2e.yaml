@@ -96,11 +96,11 @@ jobs:
           name: cluster-dump
           path: ./_output/controlplane-dump
 
-      #- name: Cleanup
-      #  if: always()
-      #  run: |
-      #    eval $(make --no-print-directory build.vars)
-      #    ${KUBECTL} delete managed --all
+      - name: Cleanup
+        if: always()
+        run: |
+          eval $(make --no-print-directory build.vars)
+          echo ${KUBECTL}
 
       - name: Create Unsuccessful Status Check
         if: failure()
