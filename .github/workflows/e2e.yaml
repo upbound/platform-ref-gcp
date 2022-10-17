@@ -2,8 +2,7 @@ name: End to End Test
 
 on:
   workflow_dispatch: {}
-  pull_request:
-    types: [opened]
+  pull_request: {}
   issue_comment:
     types: [created]
 

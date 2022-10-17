@@ -15,7 +15,10 @@ ${KUBECTL} -n upbound-system create secret generic gcp-creds --from-literal=cred
 echo "Waiting until provider-gcp is healthy..."
 ${KUBECTL} wait provider.pkg upbound-provider-gcp --for condition=Healthy --timeout 5m
 
-echo "Creating a default provider config"
+echo_step "Waiting for all pods to come online"
+"${KUBECTL}" -n upbound-system wait --for=condition=Available deployment --all --timeout=5m
+
+echo "Creating a default provider config..."
 cat <<EOF | ${KUBECTL} apply -f -
 apiVersion: gcp.upbound.io/v1beta1
 kind: ProviderConfig
