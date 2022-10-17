@@ -64,6 +64,5 @@ controlplane.dump: $(KUBECTL)
 	mkdir -p $(CONTROLPLANE_DUMP_DIRECTORY)
 	@$(KUBECTL) cluster-info dump --output-directory $(CONTROLPLANE_DUMP_DIRECTORY) --all-namespaces || true
 	@$(KUBECTL) get managed -o yaml > $(CONTROLPLANE_DUMP_DIRECTORY)/managed.yaml || true
-	@cp -r ${TMPDIR}/uptest-e2e $(CONTROLPLANE_DUMP_DIRECTORY)
 
 e2e: controlplane.up uptest
