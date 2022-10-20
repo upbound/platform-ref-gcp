@@ -1,0 +1,58 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xpostgresqlinstances.gcp.platformref.upbound.io
+  labels:
+    provider: gcp
+spec:
+  writeConnectionSecretsToNamespace: upbound-system
+  compositeTypeRef:
+    apiVersion: gcp.platformref.upbound.io/v1alpha1
+    kind: XPostgreSQLInstance
+  resources:
+    - name: DatabaseUser
+      base:
+        apiVersion: sql.gcp.upbound.io/v1beta1
+        kind: User
+        spec:
+          forProvider:
+            instanceSelector:
+              matchControllerRef: true
+      patches:
+        - fromFieldPath: spec.parameters.passwordSecretRef.namespace
+          toFieldPath: spec.forProvider.passwordSecretRef.namespace
+        - fromFieldPath: spec.parameters.passwordSecretRef.name
+          toFieldPath: spec.forProvider.passwordSecretRef.name
+        - fromFieldPath: spec.parameters.passwordSecretRef.key
+          toFieldPath: spec.forProvider.passwordSecretRef.key
+      connectionDetails:
+        - fromConnectionSecretKey: "attribute.password"
+          name: password
+    - name: DBInstance
+      base:
+        apiVersion: sql.gcp.upbound.io/v1beta1
+        kind: DatabaseInstance
+        spec:
+          forProvider:
+            databaseVersion: POSTGRES_13
+            deletionProtection: false
+            region: us-west2
+            settings:
+              - diskSize: 20
+                tier: db-f1-micro
+      patches:
+        - fromFieldPath: metadata.uid
+          toFieldPath: spec.writeConnectionSecretToRef.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-gcp-postgresql"
+        - fromFieldPath: spec.writeConnectionSecretToRef.namespace
+          toFieldPath: spec.writeConnectionSecretToRef.namespace
+        - fromFieldPath: spec.parameters.storageGB
+          toFieldPath: spec.forProvider.settings[0].diskSize
+        - fromFieldPath: spec.parameters.clusterRef.id
+          toFieldPath: spec.forProvider.settings[0].ipConfiguration[0].privateNetworkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
+      connectionDetails:
+        - fromFieldPath: status.atProvider.selfLink
+          name: endpoint
