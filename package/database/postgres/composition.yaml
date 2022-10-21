@@ -10,6 +10,30 @@ spec:
     apiVersion: gcp.platformref.upbound.io/v1alpha1
     kind: XPostgreSQLInstance
   resources:
+    - name: PrivateIPAddress
+      base:
+        apiVersion: compute.gcp.upbound.io/v1beta1
+        kind: GlobalAddress
+        spec:
+          forProvider:
+            addressType: INTERNAL
+            prefixLength: 16
+            purpose: VPC_PEERING
+      patches:
+        - fromFieldPath: spec.parameters.clusterRef.id
+          toFieldPath: spec.forProvider.networkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
+    - name: PrivateConnection
+      base:
+        apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+        kind: Connection
+        spec:
+          forProvider:
+            reservedPeeringRangesSelector:
+              matchControllerRef: true
+            service: servicenetworking.googleapis.com
+      patches:
+        - fromFieldPath: spec.parameters.clusterRef.id
+          toFieldPath: spec.forProvider.networkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
     - name: DatabaseUser
       base:
         apiVersion: sql.gcp.upbound.io/v1beta1
@@ -25,9 +49,6 @@ spec:
           toFieldPath: spec.forProvider.passwordSecretRef.name
         - fromFieldPath: spec.parameters.passwordSecretRef.key
           toFieldPath: spec.forProvider.passwordSecretRef.key
-      connectionDetails:
-        - fromConnectionSecretKey: "attribute.password"
-          name: password
     - name: DBInstance
       base:
         apiVersion: sql.gcp.upbound.io/v1beta1
