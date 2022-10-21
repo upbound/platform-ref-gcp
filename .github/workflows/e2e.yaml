@@ -67,6 +67,7 @@ jobs:
         env:
           UPTEST_GCP_PROJECT: ${{ secrets.UPTEST_GCP_PROJECT }}
           UPTEST_GCP_CREDS: ${{ secrets.UPTEST_GCP_CREDS }}
+          UPTEST_TEST_DIR: ./_output/controlplane-dump
 
       - name: Create Successful Status Check
         env:

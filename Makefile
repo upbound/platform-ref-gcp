@@ -13,6 +13,7 @@ PLATFORMS ?= linux_amd64
 
 UP_VERSION = v0.14.0
 UP_CHANNEL = stable
+UPTEST_VERSION = v0.1.1
 
 -include build/makelib/k8s_tools.mk
 # ====================================================================================
@@ -57,12 +58,5 @@ uptest: build $(UPTEST) $(KUBECTL) $(KUTTL) local.xpkg.deploy.configuration.$(PR
 	@$(INFO) running automated tests
 	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) $(UPTEST) e2e examples/cluster-claim.yaml --setup-script=test/setup.sh --default-timeout=2400 || $(FAIL)
 	@$(OK) running automated tests
-
-#TODO(turkenh): move to build submodule
-CONTROLPLANE_DUMP_DIRECTORY ?= $(OUTPUT_DIR)/controlplane-dump
-controlplane.dump: $(KUBECTL)
-	mkdir -p $(CONTROLPLANE_DUMP_DIRECTORY)
-	@$(KUBECTL) cluster-info dump --output-directory $(CONTROLPLANE_DUMP_DIRECTORY) --all-namespaces || true
-	@$(KUBECTL) get managed -o yaml > $(CONTROLPLANE_DUMP_DIRECTORY)/managed.yaml || true
 
 e2e: controlplane.up uptest
