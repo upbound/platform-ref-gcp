@@ -1,5 +1,5 @@
 apiVersion: gcp.platformref.upbound.io/v1alpha1
-kind: CompositeNetwork
+kind: XNetwork
 metadata:
   name: platform-ref-gcp-cluster
 spec:

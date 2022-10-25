@@ -1,14 +1,14 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: gke.gcp.platformref.upbound.io
+  name: xgke.gcp.platformref.upbound.io
 spec:
   connectionSecretKeys:
   - kubeconfig
   group: gcp.platformref.upbound.io
   names:
-    kind: GKE
-    plural: gke
+    kind: XGKE
+    plural: xgke
   versions:
   - name: v1alpha1
     served: true
@@ -48,13 +48,13 @@ spec:
                     required:
                     - count
                     - size
-                  compositeNetworkSelector:
+                  XNetworkSelector:
                     type: object
                     properties:
                       matchLabels:
                         additionalProperties:
                           type: string
-                        description: MatchLabels ensures a CompositeNetwork with matching labels
+                        description: MatchLabels ensures a XNetwork with matching labels
                           is selected.
                         type: object
                     required:

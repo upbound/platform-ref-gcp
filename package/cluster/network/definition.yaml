@@ -1,12 +1,12 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: compositenetworks.gcp.platformref.upbound.io
+  name: xnetworks.gcp.platformref.upbound.io
 spec:
   group: gcp.platformref.upbound.io
   names:
-    kind: CompositeNetwork
-    plural: compositenetworks
+    kind: XNetwork
+    plural: xnetworks
   versions:
     - name: v1alpha1
       served: true

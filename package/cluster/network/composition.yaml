@@ -1,14 +1,14 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: gcp.compositenetworks.gcp.platformref.upbound.io
+  name: xnetworks.gcp.platformref.upbound.io
   labels:
     provider: GCP
 spec:
   writeConnectionSecretsToNamespace: upbound-system
   compositeTypeRef:
     apiVersion: gcp.platformref.upbound.io/v1alpha1
-    kind: CompositeNetwork
+    kind: XNetwork
   resources:
     - base:
         apiVersion: compute.gcp.upbound.io/v1beta1

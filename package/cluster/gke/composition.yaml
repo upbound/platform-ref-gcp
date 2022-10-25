@@ -1,14 +1,14 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: gke.gcp.platformref.upbound.io
+  name: xgke.gcp.platformref.upbound.io
   labels:
     provider: GCP
 spec:
   writeConnectionSecretsToNamespace: upbound-system
   compositeTypeRef:
     apiVersion: gcp.platformref.upbound.io/v1alpha1
-    kind: GKE
+    kind: XGKE
   resources:
     - name: service-account
       base:
@@ -99,9 +99,9 @@ spec:
         - fromFieldPath: spec.writeConnectionSecretToRef.namespace
           toFieldPath: spec.writeConnectionSecretToRef.namespace
         # Create this cluster in the Network and Subnetwork referenced by network ID
-        - fromFieldPath: spec.parameters.compositeNetworkSelector.matchLabels
+        - fromFieldPath: spec.parameters.XNetworkSelector.matchLabels
           toFieldPath: spec.forProvider.networkSelector.matchLabels
-        - fromFieldPath: spec.parameters.compositeNetworkSelector.matchLabels
+        - fromFieldPath: spec.parameters.XNetworkSelector.matchLabels
           toFieldPath: spec.forProvider.subnetworkSelector.matchLabels
         - fromFieldPath: status.gke.serviceAccount
           toFieldPath: spec.forProvider.nodeConfig[0].serviceAccount

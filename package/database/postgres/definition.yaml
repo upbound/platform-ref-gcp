@@ -3,18 +3,16 @@ kind: CompositeResourceDefinition
 metadata:
   name: xpostgresqlinstances.gcp.platformref.upbound.io
 spec:
-  claimNames:
-    kind: PostgreSQLInstance
-    plural: postgresqlinstances
-  connectionSecretKeys:
-    - username
-    - password
-    - endpoint
-    - port
   group: gcp.platformref.upbound.io
   names:
     kind: XPostgreSQLInstance
     plural: xpostgresqlinstances
+  claimNames:
+    kind: PostgreSQLInstance
+    plural: postgresqlinstances
+  connectionSecretKeys:
+    - privateIP
+    - serverCACertificateCert
   versions:
   - name: v1alpha1
     served: true

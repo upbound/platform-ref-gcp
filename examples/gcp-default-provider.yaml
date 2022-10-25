@@ -5,7 +5,7 @@ metadata:
 spec:
   credentials:
     secretRef:
-      key: key
+      key: credentials
       name: gcp-creds
       namespace: upbound-system
     source: Secret

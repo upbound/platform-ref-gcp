@@ -75,5 +75,5 @@ spec:
         - fromFieldPath: spec.parameters.clusterRef.id
           toFieldPath: spec.forProvider.settings[0].ipConfiguration[0].privateNetworkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
       connectionDetails:
-        - fromFieldPath: status.atProvider.selfLink
-          name: endpoint
+        - fromConnectionSecretKey: privateIP
+        - fromConnectionSecretKey: serverCACertificateCert

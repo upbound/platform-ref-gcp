@@ -3,6 +3,6 @@ kind: Configuration
 metadata:
   name: upbound-platform-ref-gcp
 spec:
-  package: xpkg.upbound.io/upbound/platform-ref-gcp:v0.2.1
+  package: xpkg.upbound.io/upbound/platform-ref-gcp:v0.3.0
   packagePullSecrets:
     - name: package-pull-secret
