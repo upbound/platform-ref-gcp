@@ -3,8 +3,6 @@ kind: PostgreSQLInstance
 metadata:
   name: platform-ref-gcp-db
   namespace: default
-  annotations:
-    uptest.upbound.io/pre-delete-hook: testhooks/delete-sql-user.sh
 spec:
   parameters:
     storageGB: 10
