@@ -175,7 +175,17 @@ resources:
 kubectl get claim,composite,managed
 ```
 
-To delete the provisioned resources you would simply delete the claims again:
+If you see an error about the `compute.globalAddresses.list` permission for the project, try running the following gcloud command:
+```
+gcloud projects add-iam-policy-binding HOST_PROJECT_NAME \
+    --member=serviceAccount:service-HOST_PROJECT_NUMBER@service-networking.iam.gserviceaccount.com \
+    --role=roles/servicenetworking.serviceAgent
+```
+
+This recommendation is an excerpt from [the official GCP
+documentation](https://cloud.google.com/sql/docs/postgres/configure-private-services-access)
+
+To delete the provisioned resources, you would simply delete the claims again:
 
 ```console
 kubectl delete -f examples/cluster-claim.yaml,examples/postgres-claim.yaml
