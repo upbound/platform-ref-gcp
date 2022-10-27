@@ -73,7 +73,7 @@ spec:
         - fromFieldPath: spec.parameters.storageGB
           toFieldPath: spec.forProvider.settings[0].diskSize
         - fromFieldPath: spec.parameters.clusterRef.id
-          toFieldPath: spec.forProvider.settings[0].ipConfiguration[0].privateNetworkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
+          toFieldPath: spec.forProvider.settings[0].ipConfiguration[0].privateNetworkRef.name
       connectionDetails:
         - fromConnectionSecretKey: privateIP
         - fromConnectionSecretKey: serverCACertificateCert

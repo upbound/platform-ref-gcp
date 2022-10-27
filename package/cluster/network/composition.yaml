@@ -19,6 +19,8 @@ spec:
             routingMode: REGIONAL
       patches:
         - fromFieldPath: spec.id
+          toFieldPath: metadata.name
+        - fromFieldPath: spec.id
           toFieldPath: metadata.labels[networks.gcp.platformref.upbound.io/network-id]
     - base:
         apiVersion: compute.gcp.upbound.io/v1beta1

@@ -128,9 +128,9 @@ spec:
               - minNodeCount: 1
                 maxNodeCount: 3
             nodeConfig:
-              - diskType: pd-standard
-                diskSizeGb: 100
+              - diskSizeGb: 10
                 imageType: COS_CONTAINERD
+                machineType: e2-medium
                 preemptible: true
                 shieldedInstanceConfig:
                   - enableIntegrityMonitoring: true
