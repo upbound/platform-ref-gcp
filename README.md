@@ -121,7 +121,7 @@ for the latest version of this platform.
 Before we can use the reference platform we need to configure it with GCP
 credentials.
 
-Create a JSON `gcp.json` key file containing the GCP account credentials. GCP provides documentation on [how to create a key file](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
+Create a JSON `gcp.json` key file containing the GCP account credentials. GCP provides documentation on [how to create a key file](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating).
 
 Example `gcp.json` key should look similar to the structure below:
 ```json
