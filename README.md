@@ -143,6 +143,22 @@ Example `gcp.json` key should look similar to the structure below:
 # Create a K8s secret with the GCP creds:
 kubectl create secret generic gcp-creds -n upbound-system --from-file=credentials=./gcp.json
 
+Ensure that the following roles are added to your service account:
+
+* `roles/compute.networkAdmin`
+* `roles/container.admin`
+* `roles/iam.serviceAccountUser`
+* `roles/iam.securityAdmin`
+* `roles/iam.serviceAccountAdmin`
+* `roles/iam.serviceAccountKeyAdmin`
+* `roles/cloudsql.admin`
+
+It is convenient to assign roles with `gcloud` CLI, e.g.
+
+```console
+gcloud projects add-iam-policy-binding --role="$ROLE" $PROJECT_ID --member "serviceAccount:$SA"
+```
+
 # Configure the GCP Provider to use the secret:
 kubectl apply -f examples/gcp-default-provider.yaml
 ```
