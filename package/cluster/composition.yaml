@@ -1,24 +1,24 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: gke.compositeclusters.gcp.platformref.upbound.io
+  name: xclusters.gcp.platformref.upbound.io
   labels:
     provider: GCP
 spec:
   writeConnectionSecretsToNamespace: upbound-system
   compositeTypeRef:
     apiVersion: gcp.platformref.upbound.io/v1alpha1
-    kind: CompositeCluster
+    kind: XCluster
   resources:
     - base:
         apiVersion: gcp.platformref.upbound.io/v1alpha1
-        kind: CompositeNetwork
+        kind: XNetwork
       patches:
         - fromFieldPath: spec.id
           toFieldPath: spec.id
     - base:
         apiVersion: gcp.platformref.upbound.io/v1alpha1
-        kind: GKE
+        kind: XGKE
       connectionDetails:
         - fromConnectionSecretKey: kubeconfig
       patches:
@@ -37,10 +37,10 @@ spec:
         - fromFieldPath: spec.parameters.nodes.size
           toFieldPath: spec.parameters.nodes.size
         - fromFieldPath: spec.id
-          toFieldPath: spec.parameters.compositeNetworkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
+          toFieldPath: spec.parameters.XNetworkSelector.matchLabels[networks.gcp.platformref.upbound.io/network-id]
     - base:
         apiVersion: gcp.platformref.upbound.io/v1alpha1
-        kind: Services
+        kind: XServices
       patches:
         - fromFieldPath: spec.id
           toFieldPath: spec.providerConfigRef.name

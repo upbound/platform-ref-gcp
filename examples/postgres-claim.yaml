@@ -1,0 +1,27 @@
+apiVersion: gcp.platformref.upbound.io/v1alpha1
+kind: PostgreSQLInstance
+metadata:
+  name: platform-ref-gcp-db
+  namespace: default
+  annotations:
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-sql-user.sh
+spec:
+  parameters:
+    storageGB: 10
+    passwordSecretRef:
+      namespace: default
+      name: psqlsecret
+      key: password
+    clusterRef:
+      id: platform-ref-gcp-cluster
+  writeConnectionSecretToRef:
+    name: platform-ref-gcp-db-conn
+---
+apiVersion: v1
+data:
+  password: dXBiMHVuZHIwY2s1ITMxMzM3
+kind: Secret
+metadata:
+  name: psqlsecret
+  namespace: default
+type: Opaque

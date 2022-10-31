@@ -13,7 +13,7 @@ PLATFORMS ?= linux_amd64
 
 UP_VERSION = v0.14.0
 UP_CHANNEL = stable
-UPTEST_VERSION = v0.1.1
+UPTEST_VERSION = v0.2.0
 
 -include build/makelib/k8s_tools.mk
 # ====================================================================================
@@ -56,7 +56,7 @@ build.init: $(UP)
 # End to End Testing
 uptest: build $(UPTEST) $(KUBECTL) $(KUTTL) local.xpkg.deploy.configuration.$(PROJECT_NAME)
 	@$(INFO) running automated tests
-	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) $(UPTEST) e2e examples/cluster-claim.yaml --setup-script=test/setup.sh --default-timeout=2400 || $(FAIL)
+	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) $(UPTEST) e2e examples/cluster-claim.yaml,examples/postgres-claim.yaml --setup-script=test/setup.sh --default-timeout=3600 || $(FAIL)
 	@$(OK) running automated tests
 
 e2e: controlplane.up uptest
