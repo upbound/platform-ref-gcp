@@ -207,6 +207,16 @@ To delete the provisioned resources, you would simply delete the claims again:
 kubectl delete -f examples/cluster-claim.yaml,examples/postgres-claim.yaml
 ```
 
+**NOTE**: until [ordered
+deletion](https://github.com/crossplane/crossplane/issues/3393) is implemented
+in core Crossplane, we have to manually cleanup Helm Release and SQL User object
+fist:
+
+```console
+kubectl delete release.helm.crossplane.io ${release_name}
+kubectl delete user.sql.gcp.upbound.io ${sql_user_name}
+```
+
 To uninstall the provider & platform configuration:
 
 ```console
