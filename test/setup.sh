@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -aeuo pipefail
 
-UPTEST_GCP_PROJECT=${UPTEST_GCP_PROJECT:-crossplane-playground}
+UPTEST_GCP_PROJECT=${UPTEST_GCP_PROJECT:-official-provider-testing}
 
 echo "Running setup.sh"
 echo "Waiting until configuration package is healthy/installed..."
@@ -9,7 +9,7 @@ ${KUBECTL} wait configuration.pkg platform-ref-gcp --for=condition=Healthy --tim
 ${KUBECTL} wait configuration.pkg platform-ref-gcp --for=condition=Installed --timeout 5m
 
 echo "Creating cloud credential secret..."
-${KUBECTL} -n upbound-system create secret generic gcp-creds --from-literal=credentials="${UPTEST_GCP_CREDS}" \
+${KUBECTL} -n upbound-system create secret generic gcp-creds --from-literal=credentials="${UPTEST_CLOUD_CREDENTIALS}" \
     --dry-run=client -o yaml | ${KUBECTL} apply -f -
 
 echo "Waiting until provider-gcp is healthy..."
