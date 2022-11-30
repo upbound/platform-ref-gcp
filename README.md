@@ -160,7 +160,7 @@ gcloud projects add-iam-policy-binding --role="$ROLE" $PROJECT_ID --member "serv
 ```
 
 # Configure the GCP Provider to use the secret:
-kubectl apply -f examples/gcp-default-provider.yaml
+kubectl apply -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/gcp-default-provider.yaml
 ```
 
 See [provider-gcp docs](https://marketplace.upbound.io/providers/upbound/provider-gcp/latest/docs/configuration) for more detailed configuration options.
@@ -176,12 +176,12 @@ the application code. In our example here we simply create the claims directly:
 
 Create a custom defined cluster:
 ```console
-kubectl apply -f examples/cluster-claim.yaml
+kubectl apply -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/cluster-claim.yaml
 ```
 
 Create a custom defined database:
 ```console
-kubectl apply -f examples/postgres-claim.yaml
+kubectl apply -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/postgres-claim.yaml
 ```
 
 You can verify status by inspecting the claims, composites and managed
