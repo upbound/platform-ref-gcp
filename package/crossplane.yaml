@@ -25,10 +25,10 @@ metadata:
       secrets distributed directly to the app namespace.
 
       [Quickstart
-      Guide](https://github.com/upbound/platform-ref-gcp/#quick-start)
+      Guide](https://github.com/upbound/platform-ref-gcp/#quickstart)
 
-      [APIs in this
-      Configuration](https://github.com/upbound/platform-ref-gcp/#apis-in-this-configuration)
+      [Customize for your
+      Organization](https://github.com/upbound/platform-ref-gcp/#customize-for-your-organization)
 
       To learn more checkout the [GitHub
       repo](https://github.com/upbound/platform-ref-gcp/) that you can copy and
