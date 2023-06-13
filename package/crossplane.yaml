@@ -35,17 +35,17 @@ metadata:
       customize to meet the exact needs of your organization!
 spec:
   crossplane:
-    version: ">=v1.9.0-0"
+    version: ">=v1.12.1-0"
   dependsOn:
     - provider: xpkg.upbound.io/crossplane-contrib/provider-helm
-      version: ">=v0.12.0"
-    - provider: xpkg.upbound.io/upbound-release-candidates/provider-gcp-cloudplatform
+      version: ">=v0.15.0"
+    - provider: xpkg.upbound.io/upbound/provider-gcp-cloudplatform
       version: "v0.33.0"
-    - provider: xpkg.upbound.io/upbound-release-candidates/provider-gcp-compute
+    - provider: xpkg.upbound.io/upbound/provider-gcp-compute
       version: "v0.33.0"
-    - provider: xpkg.upbound.io/upbound-release-candidates/provider-gcp-container
+    - provider: xpkg.upbound.io/upbound/provider-gcp-container
       version: "v0.33.0"
-    - provider: xpkg.upbound.io/upbound-release-candidates/provider-gcp-servicenetworking
+    - provider: xpkg.upbound.io/upbound/provider-gcp-servicenetworking
       version: "v0.33.0"
-    - provider: xpkg.upbound.io/upbound-release-candidates/provider-gcp-sql
+    - provider: xpkg.upbound.io/upbound/provider-gcp-sql
       version: "v0.33.0"
