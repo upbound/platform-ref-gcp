@@ -40,12 +40,12 @@ spec:
     - provider: xpkg.upbound.io/crossplane-contrib/provider-helm
       version: ">=v0.15.0"
     - provider: index.docker.io/ulucinar/provider-gcp-cloudplatform
-      version: "v0.39.0-6f4f32a9c86e89ae812587e26cd983156a04ad08"
+      version: "v0.39.0-5848867bfc17168b008f3a6c5bc24541baef0fb0"
     - provider: index.docker.io/ulucinar/provider-gcp-compute
-      version: "v0.39.0-6f4f32a9c86e89ae812587e26cd983156a04ad08"
+      version: "v0.39.0-5848867bfc17168b008f3a6c5bc24541baef0fb0"
     - provider: index.docker.io/ulucinar/provider-gcp-container
-      version: "v0.39.0-6f4f32a9c86e89ae812587e26cd983156a04ad08"
+      version: "v0.39.0-5848867bfc17168b008f3a6c5bc24541baef0fb0"
     - provider: index.docker.io/ulucinar/provider-gcp-servicenetworking
-      version: "v0.39.0-6f4f32a9c86e89ae812587e26cd983156a04ad08"
+      version: "v0.39.0-5848867bfc17168b008f3a6c5bc24541baef0fb0"
     - provider: index.docker.io/ulucinar/provider-gcp-sql
-      version: "v0.39.0-6f4f32a9c86e89ae812587e26cd983156a04ad08"
+      version: "v0.39.0-5848867bfc17168b008f3a6c5bc24541baef0fb0"
