@@ -9,7 +9,7 @@ This platform provides APIs to provision fully configured GKE clusters, with
 secure networking, and stateful cloud services (Cloud SQL for PostgreSQL) designed to securely
 connect to the nodes in each GKE cluster — all composed using cloud service
 primitives from the [Official Upbound GCP
-Provider](https://marketplace.upbound.io/providers/upbound/provider-gcp). App
+Provider](https://marketplace.upbound.io/providers/upbound/provider-family-gcp/). App
 deployments can securely connect to the infrastructure they need using secrets
 distributed directly to the app namespace.
 
