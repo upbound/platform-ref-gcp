@@ -15,12 +15,15 @@ distributed directly to the app namespace.
 
 ## Overview
 
-This reference platform defines a custom API for creating an GKE cluster
-([XCluster](package/cluster/definition.yaml)) which includes the actual GKE
-cluster, a network fabric and Prometheus and other cluster services
-([XServices](package/cluster/composition.yaml)). Additionally it defines a
-custom API for provisioning Postgres Databases
-([XPostgreSQLInstance](package/database/postgres/definition.yaml)).
+This reference platform outlines a specialized API for generating an GKE cluster
+([XCluster](apis/cluster/definition.yaml)) that incorporates XRs from the specified configurations:
+
+* [upbound-configuration-app](https://github.com/upbound/configuration-app)
+* [upbound-configuration-gcp-database](https://github.com/upbound/configuration-gcp-database)
+* [upbound-configuration-gcp-gke](https://github.com/upbound/configuration-gcp-gke)
+* [upbound-configuration-gcp-network](https://github.com/upbound/configuration-gcp-network)
+* [upbound-configuration-gitops-flux](https://github.com/upbound/configuration-gitops-flux)
+* [upbound-configuration-observability-oss](https://github.com/upbound/configuration-observability-oss)
 
 
 ```mermaid
@@ -55,7 +58,7 @@ style Postgres.MRs color:#000,fill:#81CABB,stroke:#000,stroke-width:2px
 ```
 
 Learn more about Composite Resources in the [Crossplane
-Docs](https://crossplane.io/docs/v1.9/concepts/composition.html).
+Docs](https://docs.crossplane.io/latest/concepts/compositions/).
 
 ## Quickstart
 
@@ -98,11 +101,11 @@ kubectl get all -n upbound-system
 ### Install the GCP Reference Platform
 
 Now you can install this reference platform. It's packaged as a [Crossplane
-configuration package](https://crossplane.io/docs/v1.9/concepts/packages.html)
-so there is a single command to install this package:
+configuration package](https://docs.crossplane.io/latest/concepts/packages/)
+so there is a single command to install it:
 
 ```console
-up ctp configuration install xpkg.upbound.io/upbound/platform-ref-gcp:v0.3.0
+up ctp configuration install xpkg.upbound.io/upbound/platform-ref-gcp:v0.5.0
 ```
 
 Validate the install by inspecting the provider and configuration packages:
@@ -210,22 +213,28 @@ To delete the provisioned resources, you would simply delete the claims again:
 kubectl delete -f examples/cluster-claim.yaml,examples/postgres-claim.yaml
 ```
 
-**NOTE**: until [ordered
-deletion](https://github.com/crossplane/crossplane/issues/3393) is implemented
-in core Crossplane, we have to manually cleanup Helm Release and SQL User object
-fist:
-
-```console
-kubectl delete release.helm.crossplane.io ${release_name}
-kubectl delete user.sql.gcp.upbound.io ${sql_user_name}
-```
-
 To uninstall the provider & platform configuration:
 
 ```console
 kubectl delete configurations.pkg.crossplane.io upbound-platform-ref-gcp
-kubectl delete providers.pkg.crossplane.io upbound-provider-gcp
-kubectl delete providers.pkg.crossplane.io crossplane-contrib-provider-helm
+kubectl delete configurations.pkg.crossplane.io upbound-configuration-app
+kubectl delete configurations.pkg.crossplane.io upbound-configuration-gcp-database
+kubectl delete configurations.pkg.crossplane.io upbound-configuration-gcp-gke
+kubectl delete configurations.pkg.crossplane.io upbound-configuration-gcp-network
+kubectl delete configurations.pkg.crossplane.io upbound-configuration-gitops-flux
+kubectl delete configurations.pkg.crossplane.io upbound-configuration-observability-oss
+
+kubectl delete provider.pkg.crossplane.io crossplane-contrib-provider-helm
+kubectl delete provider.pkg.crossplane.io crossplane-contrib-provider-kubernetes
+kubectl delete provider.pkg.crossplane.io grafana-provider-grafana
+kubectl delete provider.pkg.crossplane.io upbound-provider-family-gcp
+kubectl delete provider.pkg.crossplane.io upbound-provider-gcp-cloudplatform
+kubectl delete provider.pkg.crossplane.io upbound-provider-gcp-compute
+kubectl delete provider.pkg.crossplane.io upbound-provider-gcp-container
+kubectl delete provider.pkg.crossplane.io upbound-provider-gcp-servicenetworking
+kubectl delete provider.pkg.crossplane.io upbound-provider-gcp-sql
+
+kubectl delete function.pkg.crossplane.io upbound-function-patch-and-transform
 ```
 
 ## Customize for your Organization
@@ -258,11 +267,6 @@ To make your changes clone this repository:
 ```console
 git clone https://github.com/upbound/platform-ref-gcp.git $PLATFORM && cd $PLATFORM
 ```
-
-In the [GKE composition](package/cluster/gke/composition.yaml) find the
-`location` definitions and change them from `us-west2` to `europe-central2`. Also find the
-`autoscaling[0].maxNodeCount` and change it from `3` to `10`.
-
 
 ### Build and push your platform
 

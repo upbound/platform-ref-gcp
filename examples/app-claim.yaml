@@ -1,0 +1,16 @@
+apiVersion: platform.upbound.io/v1alpha1
+kind: App
+metadata:
+  name: platform-ref-gcp-ghost
+  namespace: default
+  labels:
+    platform.upbound.io/deletion-ordering: enabled
+spec:
+  compositeDeletePolicy: Foreground
+  parameters:
+    providerConfigName: platform-ref-gcp
+    passwordSecretRef:
+      namespace: default
+      name: platform-ref-gcp-db-conn-mariadb
+  writeConnectionSecretToRef:
+    name: platform-ref-gcp-ghost-conn

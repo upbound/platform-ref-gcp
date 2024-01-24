@@ -1,22 +1,25 @@
 apiVersion: gcp.platformref.upbound.io/v1alpha1
 kind: Cluster
 metadata:
-  name: platform-ref-gcp-cluster
+  name: platform-ref-gcp
   namespace: default
-  annotations:
-    uptest.upbound.io/pre-delete-hook: testhooks/delete-release.sh
 spec:
-  compositionSelector:
-    matchLabels:
-      provider: GCP
-  id: platform-ref-gcp-cluster
+  compositeDeletePolicy: Foreground
   parameters:
+    id: platform-ref-gcp
+    region: us-west2
+    version: latest
     nodes:
-      count: 1
-      size: small
-    services:
-      operators:
-        prometheus:
-          version: "34.5.1"
+      count: 3
+      instanceType: n1-standard-4
+    gitops:
+      git:
+        url: https://github.com/upbound/platform-ref-gcp/
+        ref:
+          # refs/heads/main
+          # refs/tags/v0.1.0
+          # refs/pull/420/head
+          # refs/merge-requests/1/head
+          name: refs/heads/main
   writeConnectionSecretToRef:
-    name: cluster-conn
+    name: platform-ref-gcp-kubeconfig
