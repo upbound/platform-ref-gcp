@@ -38,7 +38,7 @@ spec:
       version: "v0.1.0"
     - configuration: xpkg.upbound.io/upbound/configuration-gcp-database
       # renovate: datasource=github-releases depName=upbound/configuration-gcp-database
-      version: "v0.1.0"
+      version: "v0.2.0"
     - configuration: xpkg.upbound.io/upbound/configuration-app
       # renovate: datasource=github-releases depName=upbound/configuration-app
       version: "v0.2.0"
