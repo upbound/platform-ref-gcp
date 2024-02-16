@@ -1,10 +1,13 @@
 apiVersion: gcp.platform.upbound.io/v1alpha1
-kind: PostgreSQLInstance
+kind: SQLInstance
 metadata:
   name: platform-ref-gcp-db-postgres
   namespace: default
 spec:
   parameters:
+    engine: postgres
+    engineVersion: "13"
+    region: us-west2
     storageGB: 10
     passwordSecretRef:
       namespace: default
