@@ -234,7 +234,7 @@ kubectl delete provider.pkg.crossplane.io upbound-provider-gcp-container
 kubectl delete provider.pkg.crossplane.io upbound-provider-gcp-servicenetworking
 kubectl delete provider.pkg.crossplane.io upbound-provider-gcp-sql
 
-kubectl delete function.pkg.crossplane.io upbound-function-patch-and-transform
+kubectl delete function.pkg.crossplane.io crossplane-contrib-function-patch-and-transform
 ```
 
 ## Customize for your Organization
