@@ -1,0 +1,28 @@
+apiVersion: gcp.platform.upbound.io/v1alpha1
+kind: SQLInstance
+metadata:
+  name: platform-ref-gcp-database-mysql
+  namespace: default
+spec:
+  parameters:
+    engine: mysql
+    engineVersion: "8_0"
+    region: us-west2
+    storageGB: 10
+    passwordSecretRef:
+      namespace: default
+      name: mysqlsecret
+      key: password
+    networkRef:
+      id: platform-ref-gcp
+  writeConnectionSecretToRef:
+    name: platform-ref-gcp-database-mysql-conn
+---
+apiVersion: v1
+data:
+  password: dXBiMHVuZHIwY2s1ITMxMzM3
+kind: Secret
+metadata:
+  name: mysqlsecret
+  namespace: default
+type: Opaque
