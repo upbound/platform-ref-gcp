@@ -11,6 +11,6 @@ spec:
     providerConfigName: platform-ref-gcp
     passwordSecretRef:
       namespace: default
-      name: platform-ref-gcp-db-conn-mariadb
+      name: platform-ref-gcp-database-mysql-conn
   writeConnectionSecretToRef:
     name: platform-ref-gcp-ghost-conn
