@@ -210,7 +210,7 @@ documentation](https://cloud.google.com/sql/docs/postgres/configure-private-serv
 To delete the provisioned resources, you would simply delete the claims again:
 
 ```console
-kubectl delete -f examples/cluster-claim.yaml,examples/postgres-claim.yaml
+kubectl delete -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/cluster-claim.yaml,https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/mariadb-claim.yaml,https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/app-claim.yaml
 ```
 
 To uninstall the provider & platform configuration:
