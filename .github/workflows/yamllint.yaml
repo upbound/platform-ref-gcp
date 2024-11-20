@@ -5,9 +5,9 @@ jobs:
     name: runner / yamllint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: yamllint
-        uses: reviewdog/action-yamllint@81750f17598452d2e2656b7281a55788abafc205 # v1.12.0
+        uses: reviewdog/action-yamllint@e09f07780388032a624e9eb44a23fd1bbb4052cc # v1.19.0
         with:
           reporter: github-pr-review
           filter_mode: nofilter
