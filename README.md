@@ -224,7 +224,7 @@ To get nice representation of the Claim deployment status you can use
 [crossplane beta trace](https://docs.crossplane.io/latest/cli/command-reference/#beta-trace) command
 
 ```console
-crossplane beta trace cluster.aws.platformref.upbound.io/platform-ref-aws
+crossplane beta trace cluster.gcp.platformref.upbound.io/platform-ref-gcp
 ```
 
 
