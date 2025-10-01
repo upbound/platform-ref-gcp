@@ -1,0 +1,52 @@
+apiVersion: meta.dev.upbound.io/v2alpha1
+kind: Project
+metadata:
+  name: platform-ref-gcp
+spec:
+  crossplane:
+    version: '>=v1.14.1-0'
+  dependsOn:
+  - apiVersion: pkg.crossplane.io/v1
+    kind: Configuration
+    package: xpkg.upbound.io/upbound/configuration-gcp-network
+    version: v0.9.0
+  - apiVersion: pkg.crossplane.io/v1
+    kind: Configuration
+    package: xpkg.upbound.io/upbound/configuration-gcp-gke
+    version: v0.11.1
+  - apiVersion: pkg.crossplane.io/v1
+    kind: Configuration
+    package: xpkg.upbound.io/upbound/configuration-gcp-database
+    version: v0.10.0
+  - apiVersion: pkg.crossplane.io/v1
+    kind: Configuration
+    package: xpkg.upbound.io/upbound/configuration-app
+    version: v0.12.1
+  - apiVersion: pkg.crossplane.io/v1
+    kind: Configuration
+    package: xpkg.upbound.io/upbound/configuration-observability-oss
+    version: v0.10.1
+  - apiVersion: pkg.crossplane.io/v1
+    kind: Configuration
+    package: xpkg.upbound.io/upbound/configuration-gitops-flux
+    version: v0.12.0
+  - apiVersion: pkg.crossplane.io/v1
+    kind: Function
+    package: xpkg.upbound.io/crossplane-contrib/function-auto-ready
+    version: '>=v0.2.1'
+  description: |
+    This reference platform Configuration for Kubernetes and Data Services
+    is a starting point to build, run, and operate your own internal cloud
+    platform and offer a self-service console and API to your internal teams.
+  license: Apache-2.0
+  maintainer: Upbound <support@upbound.io>
+  readme: |
+    This reference platform `Configuration` for Kubernetes and Data Services
+    is a starting point to build, run, and operate your own internal cloud
+    platform and offer a self-service console and API to your internal teams.
+    It provides platform APIs to provision fully configured GKE clusters,
+    with secure networking, and stateful cloud services (Cloud SQL) designed to
+    securely connect to the nodes in each GKE cluster -- all composed using
+    cloud service primitives from the Upbound Official GCP Provider.
+  repository: xpkg.upbound.io/solutions/platform-ref-gcp
+  source: github.com/upbound/platform-ref-gcp

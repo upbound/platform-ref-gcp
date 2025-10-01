@@ -1,29 +1,37 @@
 # Google Cloud Platform (GCP) Reference Platform
 
 This repository contains a reference GCP Platform Configuration for
-[Crossplane](https://crossplane.io/). It's a great starting point for building
+[Crossplane](https://crossplane.io/) built with [Upbound DevEx](https://docs.upbound.io/devex/). It's a great starting point for building
 internal cloud platforms with GCP and offer a self-service API to your internal
 development teams.
 
-This platform provides APIs to provision fully configured GKE clusters, with
-secure networking, and stateful cloud services (Cloud SQL for PostgreSQL) designed to securely
-connect to the nodes in each GKE cluster — all composed using cloud service
-primitives from the [Official Upbound GCP
-Provider](https://marketplace.upbound.io/providers/upbound/provider-family-gcp/). App
-deployments can securely connect to the infrastructure they need using secrets
+This platform offers APIs for setting up fully configured GKE clusters
+with secure networking, stateful cloud services (Cloud SQL for PostgreSQL) that can securely
+connect to the GKE clusters, an Observability Stack, and a GitOps
+System. All these components are built using cloud service tools from
+the [Official Upbound Family GCP Provider](https://marketplace.upbound.io/providers/upbound/provider-family-gcp).
+App deployments can securely connect to the infrastructure they need using secrets
 distributed directly to the app namespace.
+
+## Architecture
+
+This platform uses **Upbound DevEx** with:
+- **Embedded KCL Functions**: Pipeline-mode compositions with embedded KCL functions instead of external patch-and-transform
+- **Test-Driven Development**: Comprehensive composition tests and e2e tests
+- **Strong Typing**: KCL models for type-safe resource definitions
+- **Modern Workflow**: `up project build`, `up test run`, and `up composition render` commands
 
 ## Overview
 
 This reference platform outlines a specialized API for generating an GKE cluster
 ([XCluster](apis/cluster/definition.yaml)) that incorporates XRs from the specified configurations:
 
-* [upbound-configuration-app](https://github.com/upbound/configuration-app)
-* [upbound-configuration-gcp-database](https://github.com/upbound/configuration-gcp-database)
-* [upbound-configuration-gcp-gke](https://github.com/upbound/configuration-gcp-gke)
 * [upbound-configuration-gcp-network](https://github.com/upbound/configuration-gcp-network)
-* [upbound-configuration-gitops-flux](https://github.com/upbound/configuration-gitops-flux)
+* [upbound-configuration-gcp-gke](https://github.com/upbound/configuration-gcp-gke)
+* [upbound-configuration-gcp-database](https://github.com/upbound/configuration-gcp-database)
+* [upbound-configuration-app](https://github.com/upbound/configuration-app)
 * [upbound-configuration-observability-oss](https://github.com/upbound/configuration-observability-oss)
+* [upbound-configuration-gitops-flux](https://github.com/upbound/configuration-gitops-flux)
 
 
 ```mermaid
@@ -33,7 +41,7 @@ graph LR;
     MyApp---MyDB(XRC: my-db);
     MyDB---XRD2(XRD: XPostgreSQLInstance);
 		subgraph Configuration:upbound/platform-ref-gcp;
-	    XRD1---Composition(XGKE, XNetwork, XServices);
+	    XRD1---Composition(XGKE, XNetwork, XFlux, XOss);
 	    XRD2---Composition2(Composition);
 		end
 		subgraph Provider:upbound/provider-gcp
@@ -60,6 +68,24 @@ style Postgres.MRs color:#000,fill:#81CABB,stroke:#000,stroke-width:2px
 Learn more about Composite Resources in the [Crossplane
 Docs](https://docs.crossplane.io/latest/concepts/compositions/).
 
+## Development
+
+This platform uses **Upbound DevEx** for modern Crossplane development:
+
+```console
+# Build the project
+up project build
+
+# Run composition tests
+up test run tests/test-cluster
+
+# Run end-to-end tests
+up test run tests/e2etest-cluster --e2e
+
+# Render compositions
+up composition render --xrd=apis/cluster/definition.yaml apis/cluster/composition.yaml examples/cluster-xr.yaml
+```
+
 ## Quickstart
 
 ### Pre-Requisites
@@ -68,7 +94,6 @@ Before we can install the reference platform we want to install the `up` CLI.
 This is a utility that makes following this quickstart guide easier. Everything
 described here can also be done in a declarative approach which we highly
 recommend for any production type use-case.
-<!-- TODO enhance this guide: Getting ready for Gitops -->
 
 To install `up` run this install script:
 ```console
@@ -76,7 +101,7 @@ curl -sL https://cli.upbound.io | sh
 ```
 See [up docs](https://docs.upbound.io/cli/) for more install options.
 
-To intstall `crossplane` CLI follow https://docs.crossplane.io/latest/cli/#installing-the-cli
+To install `crossplane` CLI follow https://docs.crossplane.io/latest/cli/#installing-the-cli
 
 For installing the platform we need a running Crossplane control plane. We are
 using [Universal Crossplane (UXP)
@@ -202,7 +227,7 @@ kubectl apply -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main
 ```
 
 **NOTE**: The database abstraction relies on the cluster claim to be ready - it
-uses the same network to have connectivity with the EKS cluster.
+uses the same network to have connectivity with the GKE cluster.
 
 Now deploy the sample application:
 
@@ -272,7 +297,7 @@ kubectl delete function.pkg.crossplane.io crossplane-contrib-function-patch-and-
 
 So far we have used the existing reference platform but haven't made any
 changes. Lets change this and customize the platform by ensuring that GKE
-Cluster is deployed to Frankfurt (eu-central-1) and that clusters are limitted
+Cluster is deployed to Frankfurt (europe-west3) and that clusters are limited
 to 10 nodes.
 
 For the following examples we are using `my-org` and `my-platform`:
@@ -301,11 +326,13 @@ git clone https://github.com/upbound/platform-ref-gcp.git $PLATFORM && cd $PLATF
 
 ### Build and push your platform
 
-To share your new platform you need to build and distribute this package.
-
-To build the package use the `up xpkg build` command:
+To share your new platform you need to build and distribute this package using Upbound DevEx:
 
 ```console
+# Build the project with embedded functions
+up project build
+
+# Build the package
 up xpkg build --name package.xpkg --package-root=. --examples-root=examples --ignore=".github/workflows/*.yaml,.github/workflows/*.yml,examples/*.yaml,.work/uptest-datasource.yaml"
 ```
 
