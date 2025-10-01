@@ -2,6 +2,7 @@
 import models.io.upbound.dev.meta.v1alpha1 as metav1alpha1
 import models.io.upbound.platformref.gcp.v1alpha1 as platformrefgcpv1alpha1
 import models.io.upbound.gcp.v1beta1 as gcpv1beta1
+import models.io.crossplane.apiextensions.v1alpha1 as crossplaneapiextensionsv1alpha1
 
 _items = [
     metav1alpha1.E2ETest{

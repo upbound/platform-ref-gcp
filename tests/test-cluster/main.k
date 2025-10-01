@@ -4,6 +4,7 @@ import models.io.upbound.platform.gcp.v1alpha1 as gcpv1alpha1
 import models.io.upbound.platform.gitops.v1alpha1 as gitopsv1alpha1
 import models.io.upbound.platform.observe.v1alpha1 as observev1alpha1
 import models.io.upbound.platformref.gcp.v1alpha1 as platformrefgcpv1alpha1
+import models.io.crossplane.apiextensions.v1alpha1 as crossplaneapiextensionsv1alpha1
 
 _items = [
     metav1alpha1.CompositionTest{
@@ -122,6 +123,93 @@ _items = [
                                         name = "refs/heads/main"
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+                # Usage resources for dependency management (typed objects)
+                crossplaneapiextensionsv1alpha1.Usage{
+                    metadata = {
+                        name = "platform-ref-gcp-gke-by-flux"
+                        labels = {
+                            "crossplane.io/composite" = "platform-ref-gcp"
+                        }
+                        annotations = {
+                            "crossplane.io/composition-resource-name" = "usage-xgke-by-xflux"
+                        }
+                    }
+                    spec = {
+                        replayDeletion = True
+                        by = {
+                            apiVersion = "gitops.platform.upbound.io/v1alpha1"
+                            kind = "XFlux"
+                            resourceSelector = {
+                                matchControllerRef = True
+                            }
+                        }
+                        of = {
+                            apiVersion = "gcp.platform.upbound.io/v1alpha1"
+                            kind = "XGKE"
+                            resourceSelector = {
+                                matchControllerRef = True
+                            }
+                        }
+                    }
+                }
+                crossplaneapiextensionsv1alpha1.Usage{
+                    metadata = {
+                        name = "platform-ref-gcp-gke-by-oss"
+                        labels = {
+                            "crossplane.io/composite" = "platform-ref-gcp"
+                        }
+                        annotations = {
+                            "crossplane.io/composition-resource-name" = "usage-xgke-by-xoss"
+                        }
+                    }
+                    spec = {
+                        replayDeletion = True
+                        by = {
+                            apiVersion = "observe.platform.upbound.io/v1alpha1"
+                            kind = "XOss"
+                            resourceSelector = {
+                                matchControllerRef = True
+                            }
+                        }
+                        of = {
+                            apiVersion = "gcp.platform.upbound.io/v1alpha1"
+                            kind = "XGKE"
+                            resourceSelector = {
+                                matchControllerRef = True
+                            }
+                        }
+                    }
+                }
+                crossplaneapiextensionsv1alpha1.Usage{
+                    metadata = {
+                        name = "platform-ref-gcp-gke-by-labeled-release"
+                        labels = {
+                            "crossplane.io/composite" = "platform-ref-gcp"
+                        }
+                        annotations = {
+                            "crossplane.io/composition-resource-name" = "platform-ref-gcp-gke-by-labeled-release"
+                        }
+                    }
+                    spec = {
+                        replayDeletion = True
+                        by = {
+                            apiVersion = "helm.crossplane.io/v1beta1"
+                            kind = "Release"
+                            resourceSelector = {
+                                matchLabels = {
+                                    "platform.upbound.io/deletion-ordering" = "enabled"
+                                }
+                            }
+                        }
+                        of = {
+                            apiVersion = "gcp.platform.upbound.io/v1alpha1"
+                            kind = "XGKE"
+                            resourceSelector = {
+                                matchControllerRef = True
                             }
                         }
                     }

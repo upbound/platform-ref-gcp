@@ -3,8 +3,14 @@ kind: Project
 metadata:
   name: platform-ref-gcp
 spec:
+  apiDependencies:
+  - git:
+      path: cluster/crds
+      ref: release-1.20
+      repository: https://github.com/crossplane/crossplane
+    type: crd
   crossplane:
-    version: '>=v1.14.1-0'
+    version: '>=v1.20.0'
   dependsOn:
   - apiVersion: pkg.crossplane.io/v1
     kind: Configuration

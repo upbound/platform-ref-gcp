@@ -2,6 +2,7 @@
 import models.io.upbound.platform.gcp.v1alpha1 as gcpplatform
 import models.io.upbound.platform.observe.v1alpha1 as observeplatform
 import models.io.upbound.platform.gitops.v1alpha1 as gitopsplatform
+import models.io.crossplane.apiextensions.v1alpha1 as crossplaneapiextensionsv1alpha1
 
 oxr = option("params").oxr
 _ocds = option("params").ocds
@@ -121,10 +122,8 @@ _items = [
             }
         }
 
-    # Usage resources for dependency management (untyped objects)
-    {
-        apiVersion = "apiextensions.crossplane.io/v1alpha1"
-        kind = "Usage"
+    # Usage resources for dependency management (typed objects)
+    crossplaneapiextensionsv1alpha1.Usage {
         metadata = _metadata("usage-xgke-by-xflux") | {
             name = "{}-gke-by-flux".format(_id)
         }
@@ -147,9 +146,7 @@ _items = [
         }
     }
 
-    {
-        apiVersion = "apiextensions.crossplane.io/v1alpha1"
-        kind = "Usage"
+    crossplaneapiextensionsv1alpha1.Usage {
         metadata = _metadata("usage-xgke-by-xoss") | {
             name = "{}-gke-by-oss".format(_id)
         }
@@ -172,9 +169,7 @@ _items = [
         }
     }
 
-    {
-        apiVersion = "apiextensions.crossplane.io/v1alpha1"
-        kind = "Usage"
+    crossplaneapiextensionsv1alpha1.Usage {
         metadata = _metadata("usage-xgke-by-arbitrary-labeled-release") | {
             name = "{}-gke-by-labeled-release".format(_id)
             annotations = {
