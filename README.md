@@ -193,6 +193,7 @@ Ensure that the following roles are added to your service account:
 * `roles/iam.serviceAccountAdmin`
 * `roles/iam.serviceAccountKeyAdmin`
 * `roles/cloudsql.admin`
+* `roles/servicenetworking.networksAdmin`
 
 It is convenient to assign roles with `gcloud` CLI, e.g.
 
@@ -223,7 +224,7 @@ kubectl apply -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main
 
 Create a custom defined database:
 ```console
-kubectl apply -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/mariadb-claim.yaml
+kubectl apply -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/mysql-claim.yaml
 ```
 
 **NOTE**: The database abstraction relies on the cluster claim to be ready - it
@@ -235,7 +236,7 @@ Now deploy the sample application:
 kubectl apply -f examples/app-claim.yaml
 ```
 
-**NOTE**: application has a strong dependency on mariadb type of the database
+**NOTE**: application has a strong dependency on mysql type of the database
 
 
 You can verify status by inspecting the claims, composites and managed
@@ -266,7 +267,7 @@ documentation](https://cloud.google.com/sql/docs/postgres/configure-private-serv
 To delete the provisioned resources, you would simply delete the claims again:
 
 ```console
-kubectl delete -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/cluster-claim.yaml,https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/mariadb-claim.yaml,https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/app-claim.yaml
+kubectl delete -f https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/cluster-claim.yaml,https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/mysql-claim.yaml,https://raw.githubusercontent.com/upbound/platform-ref-gcp/main/examples/app-claim.yaml
 ```
 
 To uninstall the provider & platform configuration:

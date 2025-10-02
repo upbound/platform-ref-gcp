@@ -2,6 +2,7 @@
 import models.io.upbound.dev.meta.v1alpha1 as metav1alpha1
 import models.io.upbound.platformref.gcp.v1alpha1 as platformrefgcpv1alpha1
 import models.io.upbound.gcp.v1beta1 as gcpv1beta1
+import models.io.upbound.platform.v1alpha1 as platformv1alpha1
 import models.io.crossplane.apiextensions.v1alpha1 as crossplaneapiextensionsv1alpha1
 
 _items = [
@@ -20,7 +21,7 @@ _items = [
                     }
                     spec = {
                         parameters = {
-                            id = "platform-ref-gcp-cluster"
+                            id = "e2e-platform-ref-gcp"
                             region = "us-west2"
                             version = "latest"
                             deletionPolicy = "Delete"
@@ -58,6 +59,61 @@ _items = [
                         }
                     }
                 }
+                # Create XSQLInstance (MySQL database) for E2E testing
+                {
+                    apiVersion = "gcp.platform.upbound.io/v1alpha1"
+                    kind = "XSQLInstance"
+                    metadata = {
+                        name = "platform-ref-gcp-database-mysql-test"
+                    }
+                    spec = {
+                        parameters = {
+                            engine = "mysql"
+                            engineVersion = "8_0"
+                            region = "us-west2"
+                            storageGB = 10
+                            passwordSecretRef = {
+                                namespace = "upbound-system"
+                                name = "mysqlsecret"
+                                key = "password"
+                            }
+                            networkRef = {
+                                id = "e2e-platform-ref-gcp"
+                            }
+                        }
+                        writeConnectionSecretToRef = {
+                            name = "platform-ref-gcp-database-mysql-conn"
+                            namespace = "upbound-system"
+                        }
+                    }
+                }
+                # Create XApp (Ghost application) for E2E testing
+                platformv1alpha1.XApp{
+                    apiVersion = "platform.upbound.io/v1alpha1"
+                    kind = "XApp"
+                    metadata = {
+                        name = "platform-ref-gcp-ghost"
+                        labels = {
+                            "platform.upbound.io/deletion-ordering" = "enabled"
+                        }
+                    }
+                    spec = {
+                        parameters = {
+                            providerConfigName = "e2e-platform-ref-gcp"
+                            helm = {
+                                wait = False
+                            }
+                            passwordSecretRef = {
+                                namespace = "upbound-system"
+                                name = "platform-ref-gcp-database-mysql-conn"
+                            }
+                        }
+                        writeConnectionSecretToRef = {
+                            name = "platform-ref-gcp-ghost-conn"
+                            namespace = "upbound-system"
+                        }
+                    }
+                }
             ]
             extraResources = [
                 # GCP ProviderConfig for authentication
@@ -74,6 +130,19 @@ _items = [
                                 }
                             }
                         }
+                    }
+                }
+                # MySQL password secret for database connection
+                {
+                    apiVersion = "v1"
+                    kind = "Secret"
+                    metadata = {
+                        name = "mysqlsecret"
+                        namespace = "upbound-system"
+                    }
+                    type = "Opaque"
+                    data = {
+                        password = "dXBiMHVuZHIwY2s1ITMxMzM3"
                     }
                 }
             ]

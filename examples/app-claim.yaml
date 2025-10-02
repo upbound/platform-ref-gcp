@@ -8,7 +8,9 @@ metadata:
 spec:
   compositeDeletePolicy: Foreground
   parameters:
-    providerConfigName: platform-ref-gcp
+    providerConfigName: platform-ref-gcp-devex
+    helm:
+      wait: false
     passwordSecretRef:
       namespace: default
       name: platform-ref-gcp-database-mysql-conn

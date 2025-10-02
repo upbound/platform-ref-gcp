@@ -6,7 +6,7 @@ metadata:
 spec:
   compositeDeletePolicy: Foreground
   parameters:
-    id: platform-ref-gcp
+    id: platform-ref-gcp-devex
     region: us-west2
     version: latest
     nodes:
