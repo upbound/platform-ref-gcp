@@ -9,7 +9,7 @@ spec:
   mode: Pipeline
   pipeline:
   - functionRef:
-      name: solutions-platform-ref-gcpcluster
+      name: upbound-platform-ref-gcpcluster
     step: cluster
   - functionRef:
       name: crossplane-contrib-function-auto-ready
