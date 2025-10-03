@@ -54,5 +54,5 @@ spec:
     with secure networking, and stateful cloud services (Cloud SQL) designed to
     securely connect to the nodes in each GKE cluster -- all composed using
     cloud service primitives from the Upbound Official GCP Provider.
-  repository: xpkg.upbound.io/solutions/platform-ref-gcp
+  repository: xpkg.upbound.io/upbound/platform-ref-gcp
   source: github.com/upbound/platform-ref-gcp
