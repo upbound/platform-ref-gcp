@@ -1,25 +1,33 @@
 apiVersion: gcp.platformref.upbound.io/v1alpha1
-kind: Cluster
+kind: XCluster
 metadata:
   name: platform-ref-gcp
-  namespace: default
+  uid: test-uid-12345
 spec:
-  compositeDeletePolicy: Foreground
   parameters:
-    id: platform-ref-gcp-devex
+    id: platform-ref-gcp
     region: us-west2
     version: latest
+    deletionPolicy: Delete
+    providerConfigName: default
     nodes:
       count: 1
       instanceType: n1-standard-4
+    operators:
+      flux:
+        version: "2.10.6"
+      flux-sync:
+        version: "1.7.2"
+      prometheus:
+        version: "52.1.0"
     gitops:
       git:
         url: https://github.com/upbound/platform-ref-gcp/
+        path: /
+        interval: 5m0s
+        timeout: 60s
         ref:
-          # refs/heads/main
-          # refs/tags/v0.1.0
-          # refs/pull/420/head
-          # refs/merge-requests/1/head
           name: refs/heads/main
   writeConnectionSecretToRef:
     name: platform-ref-gcp-kubeconfig
+    namespace: default

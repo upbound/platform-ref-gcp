@@ -14,7 +14,7 @@ spec:
       name: mysqlsecret
       key: password
     networkRef:
-      id: platform-ref-gcp
+      id: platform-ref-gcp-devex
   writeConnectionSecretToRef:
     name: platform-ref-gcp-database-mysql-conn
 ---
