@@ -4,7 +4,7 @@ import models.io.upbound.platform.gcp.v1alpha1 as gcpv1alpha1
 import models.io.upbound.platform.gitops.v1alpha1 as gitopsv1alpha1
 import models.io.upbound.platform.observe.v1alpha1 as observev1alpha1
 import models.io.upbound.platformref.gcp.v1alpha1 as platformrefgcpv1alpha1
-import models.io.crossplane.apiextensions.v1alpha1 as crossplaneapiextensionsv1alpha1
+import models.io.crossplane.protection.v1beta1 as crossplaneprotectionv1beta1
 
 _items = [
     metav1alpha1.CompositionTest{
@@ -16,8 +16,8 @@ _items = [
             timeoutSeconds = 60
             validate = False
             assertResources = [
-                # XNetwork composite resource
-                gcpv1alpha1.XNetwork{
+                # Network composite resource
+                gcpv1alpha1.Network{
                     metadata = {
                         name = "composite-network-gcp"
                         labels = {
@@ -31,13 +31,13 @@ _items = [
                         parameters = {
                             id = "platform-ref-gcp"
                             region = "us-west2"
-                            deletionPolicy = "Delete"
+                            managementPolicies = ["*"]
                             providerConfigName = "default"
                         }
                     }
                 }
-                # XGKE composite resource
-                gcpv1alpha1.XGKE{
+                # GKE composite resource
+                gcpv1alpha1.GKE{
                     metadata = {
                         name = "composite-cluster-gke"
                         labels = {
@@ -53,7 +53,7 @@ _items = [
                         parameters = {
                             id = "platform-ref-gcp"
                             region = "us-west2"
-                            deletionPolicy = "Delete"
+                            managementPolicies = ["*"]
                             providerConfigName = "default"
                             version = "latest"
                             nodes = {
@@ -61,14 +61,10 @@ _items = [
                                 instanceType = "n1-standard-4"
                             }
                         }
-                        writeConnectionSecretToRef = {
-                            name = "test-uid-12345-gke"
-                            namespace = "upbound-system"
-                        }
                     }
                 }
-                # XOss observability resource
-                observev1alpha1.XOss{
+                # Oss observability resource
+                observev1alpha1.Oss{
                     metadata = {
                         name = "composite-observability-oss"
                         labels = {
@@ -80,7 +76,7 @@ _items = [
                     }
                     spec = {
                         parameters = {
-                            deletionPolicy = "Delete"
+                            managementPolicies = ["*"]
                             id = "platform-ref-gcp"
                             operators = {
                                 prometheus = {
@@ -90,8 +86,8 @@ _items = [
                         }
                     }
                 }
-                # XFlux GitOps resource
-                gitopsv1alpha1.XFlux{
+                # Flux GitOps resource
+                gitopsv1alpha1.Flux{
                     metadata = {
                         name = "composite-gitops-flux"
                         labels = {
@@ -103,7 +99,7 @@ _items = [
                     }
                     spec = {
                         parameters = {
-                            deletionPolicy = "Delete"
+                            managementPolicies = ["*"]
                             providerConfigName = "platform-ref-gcp"
                             operators = {
                                 flux = {
@@ -128,63 +124,63 @@ _items = [
                     }
                 }
                 # Usage resources for dependency management (typed objects)
-                crossplaneapiextensionsv1alpha1.Usage{
+                crossplaneprotectionv1beta1.Usage{
                     metadata = {
                         name = "platform-ref-gcp-gke-by-flux"
                         labels = {
                             "crossplane.io/composite" = "platform-ref-gcp"
                         }
                         annotations = {
-                            "crossplane.io/composition-resource-name" = "usage-xgke-by-xflux"
+                            "crossplane.io/composition-resource-name" = "usage-gke-by-flux"
                         }
                     }
                     spec = {
                         replayDeletion = True
                         by = {
                             apiVersion = "gitops.platform.upbound.io/v1alpha1"
-                            kind = "XFlux"
+                            kind = "Flux"
                             resourceSelector = {
                                 matchControllerRef = True
                             }
                         }
                         of = {
                             apiVersion = "gcp.platform.upbound.io/v1alpha1"
-                            kind = "XGKE"
+                            kind = "GKE"
                             resourceSelector = {
                                 matchControllerRef = True
                             }
                         }
                     }
                 }
-                crossplaneapiextensionsv1alpha1.Usage{
+                crossplaneprotectionv1beta1.Usage{
                     metadata = {
                         name = "platform-ref-gcp-gke-by-oss"
                         labels = {
                             "crossplane.io/composite" = "platform-ref-gcp"
                         }
                         annotations = {
-                            "crossplane.io/composition-resource-name" = "usage-xgke-by-xoss"
+                            "crossplane.io/composition-resource-name" = "usage-gke-by-oss"
                         }
                     }
                     spec = {
                         replayDeletion = True
                         by = {
                             apiVersion = "observe.platform.upbound.io/v1alpha1"
-                            kind = "XOss"
+                            kind = "Oss"
                             resourceSelector = {
                                 matchControllerRef = True
                             }
                         }
                         of = {
                             apiVersion = "gcp.platform.upbound.io/v1alpha1"
-                            kind = "XGKE"
+                            kind = "GKE"
                             resourceSelector = {
                                 matchControllerRef = True
                             }
                         }
                     }
                 }
-                crossplaneapiextensionsv1alpha1.Usage{
+                crossplaneprotectionv1beta1.Usage{
                     metadata = {
                         name = "platform-ref-gcp-gke-by-labeled-release"
                         labels = {
@@ -207,7 +203,7 @@ _items = [
                         }
                         of = {
                             apiVersion = "gcp.platform.upbound.io/v1alpha1"
-                            kind = "XGKE"
+                            kind = "GKE"
                             resourceSelector = {
                                 matchControllerRef = True
                             }
@@ -215,10 +211,10 @@ _items = [
                     }
                 }
             ]
-            # Observed resources to simulate XGKE being ready (triggers XOss and XFlux creation)
+            # Observed resources to simulate GKE being ready (triggers Oss and Flux creation)
             observedResources = [
-                # XGKE with Ready condition to trigger XOss and XFlux creation
-                gcpv1alpha1.XGKE{
+                # GKE with Ready condition to trigger Oss and Flux creation
+                gcpv1alpha1.GKE{
                     metadata = {
                         name = "composite-cluster-gke"
                         annotations = {
@@ -229,17 +225,13 @@ _items = [
                         parameters = {
                             id = "platform-ref-gcp"
                             region = "us-west2"
-                            deletionPolicy = "Delete"
+                            managementPolicies = ["*"]
                             providerConfigName = "default"
                             version = "latest"
                             nodes = {
                                 count = 1
                                 instanceType = "n1-standard-4"
                             }
-                        }
-                        writeConnectionSecretToRef = {
-                            name = "test-uid-12345-gke"
-                            namespace = "upbound-system"
                         }
                     }
                     status = {
