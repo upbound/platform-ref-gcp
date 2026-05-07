@@ -65,13 +65,14 @@ _items = [
                         region = "us-west2"
                         storageGB = 10
                         passwordSecretRef = {
-                            namespace = "default"
                             name = "mysqlsecret"
                             key = "password"
                         }
                         networkRef = {
                             id = "e2e-platform-ref-gcp"
                         }
+                        managementPolicies = ["*"]
+                        providerConfigName = "default"
                     }
                 }
                 # App (Ghost)
