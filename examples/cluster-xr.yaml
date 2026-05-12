@@ -1,7 +1,8 @@
 apiVersion: gcp.platformref.upbound.io/v1alpha1
-kind: XCluster
+kind: Cluster
 metadata:
   name: platform-ref-gcp
+  namespace: default
   uid: test-uid-12345
 spec:
   parameters:
@@ -28,6 +29,3 @@ spec:
         timeout: 60s
         ref:
           name: refs/heads/main
-  writeConnectionSecretToRef:
-    name: platform-ref-gcp-kubeconfig
-    namespace: default

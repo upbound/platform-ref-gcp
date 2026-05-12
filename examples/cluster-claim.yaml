@@ -4,7 +4,6 @@ metadata:
   name: platform-ref-gcp
   namespace: default
 spec:
-  compositeDeletePolicy: Foreground
   parameters:
     id: platform-ref-gcp-devex
     region: us-west2
@@ -21,5 +20,3 @@ spec:
           # refs/pull/420/head
           # refs/merge-requests/1/head
           name: refs/heads/main
-  writeConnectionSecretToRef:
-    name: platform-ref-gcp-kubeconfig
