@@ -15,8 +15,6 @@ spec:
       key: password
     networkRef:
       id: platform-ref-gcp-devex
-  writeConnectionSecretToRef:
-    name: platform-ref-gcp-database-mysql-conn
 ---
 apiVersion: v1
 data:

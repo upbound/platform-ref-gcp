@@ -1,18 +1,14 @@
-apiVersion: apiextensions.crossplane.io/v1
+apiVersion: apiextensions.crossplane.io/v2
 kind: CompositeResourceDefinition
 metadata:
-  name: xclusters.gcp.platformref.upbound.io
+  name: clusters.gcp.platformref.upbound.io
 spec:
+  scope: Namespaced
   defaultCompositeDeletePolicy: Foreground
   group: gcp.platformref.upbound.io
   names:
-    kind: XCluster
-    plural: xclusters
-  claimNames:
     kind: Cluster
     plural: clusters
-  connectionSecretKeys:
-    - kubeconfig
   versions:
     - name: v1alpha1
       served: true

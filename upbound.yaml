@@ -4,38 +4,41 @@ metadata:
   name: platform-ref-gcp
 spec:
   apiDependencies:
+  - k8s:
+      version: v1.33.0
+    type: k8s
   - git:
       path: cluster/crds
-      ref: release-1.20
+      ref: release-2.1
       repository: https://github.com/crossplane/crossplane
     type: crd
   crossplane:
-    version: '>=v1.20.0'
+    version: '>=v2.0.0'
   dependsOn:
   - apiVersion: pkg.crossplane.io/v1
     kind: Configuration
     package: xpkg.upbound.io/upbound/configuration-gcp-network
-    version: v0.9.0
+    version: v2.0.0
   - apiVersion: pkg.crossplane.io/v1
     kind: Configuration
     package: xpkg.upbound.io/upbound/configuration-gcp-gke
-    version: v0.11.1
+    version: v2.0.2
   - apiVersion: pkg.crossplane.io/v1
     kind: Configuration
     package: xpkg.upbound.io/upbound/configuration-gcp-database
-    version: v0.11.0
+    version: v2.1.0
   - apiVersion: pkg.crossplane.io/v1
     kind: Configuration
     package: xpkg.upbound.io/upbound/configuration-app
-    version: v0.12.1
+    version: v2.1.0
   - apiVersion: pkg.crossplane.io/v1
     kind: Configuration
     package: xpkg.upbound.io/upbound/configuration-observability-oss
-    version: v0.10.1
+    version: v2.0.0
   - apiVersion: pkg.crossplane.io/v1
     kind: Configuration
     package: xpkg.upbound.io/upbound/configuration-gitops-flux
-    version: v0.12.0
+    version: v2.0.0
   - apiVersion: pkg.crossplane.io/v1
     kind: Function
     package: xpkg.upbound.io/crossplane-contrib/function-auto-ready

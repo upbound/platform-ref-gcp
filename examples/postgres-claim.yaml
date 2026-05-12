@@ -15,8 +15,6 @@ spec:
       key: password
     networkRef:
       id: platform-ref-gcp
-  writeConnectionSecretToRef:
-    name: platform-ref-gcp-db-conn-postgres
 ---
 apiVersion: v1
 data:
