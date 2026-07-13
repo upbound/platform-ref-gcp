@@ -217,6 +217,7 @@ _items = [
                 gcpv1alpha1.GKE{
                     metadata = {
                         name = "composite-cluster-gke"
+                        namespace = "default"
                         annotations = {
                             "crossplane.io/composition-resource-name" = "composite-cluster-gke"
                         }
