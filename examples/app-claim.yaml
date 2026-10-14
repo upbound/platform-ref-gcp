@@ -16,4 +16,4 @@ spec:
       wait: false
     passwordSecretRef:
       namespace: default
-      name: platform-ref-gcp-database-mysql-conn
+      name: platform-ref-gcp-database-mysql-connection

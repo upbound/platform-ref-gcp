@@ -4,11 +4,13 @@ metadata:
   name: clusters.gcp.platformref.upbound.io
 spec:
   scope: Namespaced
-  defaultCompositeDeletePolicy: Foreground
   group: gcp.platformref.upbound.io
   names:
     kind: Cluster
     plural: clusters
+    categories:
+      - platform
+      - gcp
   versions:
     - name: v1alpha1
       served: true
@@ -16,6 +18,13 @@ spec:
       schema:
         openAPIV3Schema:
           type: object
+          description: |
+            A Cluster is a GKE cluster with its own network, an observability
+            stack and a GitOps agent, ready for applications and databases.
+
+            This is the platform API. Fields here describe what consumers want,
+            not how it is built; the implementation behind it may change without
+            changing this schema. Changes to this schema are additive only.
           properties:
             spec:
               type: object
@@ -31,7 +40,10 @@ spec:
                       type: string
                       description: Region is the region you'd like your resource to be created in.
                     deletionPolicy:
-                      description: Delete the external resources when the Claim/XR is deleted. Defaults to Delete
+                      description: |
+                        What happens to the cloud resources when this Cluster is deleted.
+                        Delete removes them. Orphan leaves the network and cluster running
+                        in GCP, so they outlive the control plane that created them.
                       enum:
                         - Delete
                         - Orphan
@@ -52,23 +64,31 @@ spec:
                         count:
                           type: integer
                           description: Desired node count, from 1 to 100.
+                        size:
+                          type: string
+                          description: |
+                            Size of each node. The platform maps this to a current machine
+                            type, and may change that mapping as GCP offers better ones.
+                            Ignored when instanceType is set.
+                          enum:
+                            - small
+                            - medium
+                            - large
+                          default: medium
                         instanceType:
                           type: string
-                          description: instance types associated with the Node Group.
-                          default: n1-standard-4
+                          description: |
+                            Override: an exact GCP machine type, e.g. n1-standard-4. Takes
+                            precedence over size. Prefer size unless you need a specific
+                            machine type; a pinned type will not follow platform updates.
                       required:
                         - count
-                        - instanceType
                     operators:
-                      description: Configuration for operators.
+                      description: |
+                        Override: pin the chart versions of the cluster's operators. Leave
+                        unset to run the versions the platform currently supports; a pinned
+                        version will not follow platform updates.
                       type: object
-                      default:
-                        flux:
-                          version: "2.10.6"
-                        flux-sync:
-                          version: "1.7.2"
-                        prometheus:
-                          version: "52.1.0"
                       properties:
                         flux:
                           description: Configuration for the Flux GitOps operator.
@@ -77,9 +97,6 @@ spec:
                             version:
                               description: flux helm-chart version to run.
                               type: string
-                              default: "2.10.6"
-                          required:
-                            - version
                         flux-sync:
                           description: Configuration for the Flux Sync Helm-Chart.
                           type: object
@@ -87,9 +104,6 @@ spec:
                             version:
                               description: flux sync helm-chart version to run.
                               type: string
-                              default: "1.7.2"
-                          required:
-                            - version
                         prometheus:
                           description: Configuration for the Prometheus Helm-Chart.
                           type: object
@@ -97,9 +111,6 @@ spec:
                             version:
                               description: prometheus helm-chart version to run.
                               type: string
-                              default: "52.1.0"
-                          required:
-                            - version
                     gitops:
                       description: GitOps configure gitops system
                       type: object
@@ -153,15 +164,57 @@ spec:
                     - gitops
                     - id
                     - nodes
-                    - operators
                     - providerConfigName
                     - region
               required:
                 - parameters
             status:
               type: object
+              description: |
+                What this Cluster publishes for the resources that build on it. Read
+                these values rather than deriving names from the implementation.
               properties:
+                network:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: Network ID. Use as networkRef.id on a SQLInstance.
+                    ready:
+                      type: boolean
+                      description: Whether the network is ready.
+                kubernetes:
+                  type: object
+                  properties:
+                    ready:
+                      type: boolean
+                      description: Whether the GKE cluster is ready.
+                    providerConfigName:
+                      type: string
+                      description: ProviderConfig that deploys into this cluster. Use as
+                        providerConfigName on an App.
+                    kubeconfigSecretRef:
+                      type: object
+                      description: Secret in this namespace holding the cluster's kubeconfig.
+                      properties:
+                        name:
+                          type: string
+                        key:
+                          type: string
+                observability:
+                  type: object
+                  properties:
+                    ready:
+                      type: boolean
+                      description: Whether the observability stack is ready.
+                gitops:
+                  type: object
+                  properties:
+                    ready:
+                      type: boolean
+                      description: Whether the GitOps agent is ready.
                 subnetIds:
                   type: array
+                  description: Deprecated. Never populated; kept so existing readers stay valid.
                   items:
                     type: string

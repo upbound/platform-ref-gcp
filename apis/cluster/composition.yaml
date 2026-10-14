@@ -14,4 +14,3 @@ spec:
   - functionRef:
       name: crossplane-contrib-function-auto-ready
     step: auto-ready
-  writeConnectionSecretsToNamespace: upbound-system

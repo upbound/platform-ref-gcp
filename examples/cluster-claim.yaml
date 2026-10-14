@@ -7,10 +7,9 @@ spec:
   parameters:
     id: platform-ref-gcp-devex
     region: us-west2
-    version: latest
     nodes:
       count: 1
-      instanceType: n1-standard-4
+      size: medium
     gitops:
       git:
         url: https://github.com/upbound/platform-ref-gcp/

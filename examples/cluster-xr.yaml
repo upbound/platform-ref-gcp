@@ -1,9 +1,11 @@
+# A Cluster with every parameter set. Most consumers need only the fields in
+# cluster-claim.yaml; the rest have defaults, and the fields marked "override"
+# pin a choice the platform would otherwise make and keep up to date.
 apiVersion: gcp.platformref.upbound.io/v1alpha1
 kind: Cluster
 metadata:
   name: platform-ref-gcp
   namespace: default
-  uid: test-uid-12345
 spec:
   parameters:
     id: platform-ref-gcp
@@ -13,7 +15,10 @@ spec:
     providerConfigName: default
     nodes:
       count: 1
+      size: medium
+      # Override: an exact machine type, used instead of size.
       instanceType: n1-standard-4
+    # Override: pinned chart versions, used instead of the platform's.
     operators:
       flux:
         version: "2.10.6"
