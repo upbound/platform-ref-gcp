@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "test"
+description = "A Crossplane e2e test."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+version = "0.0.0"
+dependencies = [
+  "pydantic==2.12.4",
+  "pyyaml==6.0.2",
+  "crossplane-models @ file:./../../.up/python",
+]
+
+[tool.hatch.envs.default.scripts]
+test = "python -m test"
+
+[tool.hatch.metadata]
+allow-direct-references = true
